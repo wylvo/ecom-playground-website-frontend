@@ -1,11 +1,11 @@
+import { useRef, useState } from "react"
 import { getRouteApi, Link } from "@tanstack/react-router"
 import { z } from "zod"
-import { useState } from "react"
 import { toast } from "sonner"
 import { Loader2Icon } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Turnstile } from "@marsidev/react-turnstile"
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile"
 
 import { cn } from "@/lib/utils"
 import { Input } from "@/components/ui/shadcn/input"
@@ -27,13 +27,13 @@ import {
   FormLabel,
 } from "@/components/ui/shadcn/form"
 
-const registerSchema = z.object({
+const loginSchema = z.object({
   email: z.email({ error: "Please insert a valid email" }),
-  password: z
-    .string()
-    .min(8, { error: "Password must be at least 8 characters" }),
+  password: z.string(),
   captchaToken: z.string({ error: "Please complete the challenge" }),
 })
+
+type LoginFormFields = z.infer<typeof loginSchema>
 
 const route = getRouteApi("/{-$locale}/(auth)/login")
 
@@ -43,10 +43,11 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const { auth, locale } = route.useRouteContext()
   const { redirect } = route.useSearch()
 
+  const ref = useRef<TurnstileInstance | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const form = useForm<z.infer<typeof registerSchema>>({
-    resolver: zodResolver(registerSchema),
+  const form = useForm<LoginFormFields>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -56,13 +57,11 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
 
   const {
     formState: { errors },
-    getValues,
   } = form
 
-  const { email, password, captchaToken } = getValues()
-  console.log(getValues())
+  async function handleSubmit(data: LoginFormFields) {
+    const { email, password, captchaToken } = data
 
-  const onSubmit = async () => {
     if (!captchaToken) {
       toast.error("Please complete the challenge", {
         style: {
@@ -80,12 +79,15 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
       // Supabase auth will automatically update context
       window.location.href = redirect
     } catch (error: any) {
-      toast.error(error.message || "Login failed", {
+      toast.error("Login failed", {
         style: {
           color: "var(--destructive)",
         },
       })
     } finally {
+      // Reset the Turnstile component by changing the key to generate a new challenge
+      ref.current?.reset()
+      form.clearErrors()
       setIsLoading(false)
     }
 
@@ -106,7 +108,7 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(handleSubmit)}>
               <div className="grid gap-6">
                 <div className="flex flex-col gap-4">
                   {/* <Button variant="outline" className="w-full">
@@ -180,11 +182,6 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
                             {...field}
                           />
                         </FormControl>
-                        {errors.password && (
-                          <FormDescription className="text-(--destructive)">
-                            {errors.password.message}
-                          </FormDescription>
-                        )}
                       </FormItem>
                     )}
                   />
@@ -196,6 +193,7 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
                       <FormItem className="flex flex-row items-center gap-2">
                         <FormControl>
                           <Turnstile
+                            ref={ref}
                             onSuccess={(token) => field.onChange(token)}
                             siteKey={siteKey}
                             options={{

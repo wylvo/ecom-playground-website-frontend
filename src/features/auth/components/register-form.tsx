@@ -1,11 +1,11 @@
+import { useRef, useState } from "react"
 import { getRouteApi, Link } from "@tanstack/react-router"
 import { z } from "zod"
-import { useState, type FormEvent } from "react"
 import { toast } from "sonner"
 import { Loader2Icon } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Turnstile } from "@marsidev/react-turnstile"
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile"
 
 import { cn } from "@/lib/utils"
 import { Input } from "@/components/ui/shadcn/input"
@@ -37,6 +37,8 @@ const registerSchema = z.object({
   captchaToken: z.string({ error: "Please complete the challenge" }),
 })
 
+type RegisterFormFields = z.infer<typeof registerSchema>
+
 const route = getRouteApi("/{-$locale}/(auth)/register")
 
 const siteKey = import.meta.env.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY
@@ -45,9 +47,10 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
   const { auth, locale } = route.useRouteContext()
   const { redirect } = route.useSearch()
 
+  const ref = useRef<TurnstileInstance | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const form = useForm<z.infer<typeof registerSchema>>({
+  const form = useForm<RegisterFormFields>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       email: "",
@@ -59,13 +62,11 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
 
   const {
     formState: { errors },
-    getValues,
   } = form
 
-  const { email, password, hasAcceptedTerms, captchaToken } = getValues()
-  console.log(getValues())
+  async function handleSubmit(data: RegisterFormFields) {
+    const { email, password, hasAcceptedTerms, captchaToken } = data
 
-  const onSubmit = async () => {
     if (!hasAcceptedTerms) {
       toast.error("Please accept terms & privacy policy", {
         style: {
@@ -92,12 +93,18 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
       // Supabase auth will automatically update context
       window.location.href = redirect
     } catch (error: any) {
-      toast.error(error.message || "Sign up failed", {
+      toast.error("Sign up failed", {
         style: {
           color: "var(--destructive)",
         },
       })
     } finally {
+      // Reset the Turnstile component by changing the key to generate a new challenge
+      ref.current?.reset()
+      form.reset({
+        hasAcceptedTerms: true,
+      })
+      form.clearErrors()
       setIsLoading(false)
     }
 
@@ -107,10 +114,8 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
       )
   }
 
-  async function handleGuest(e: FormEvent) {
-    e.preventDefault()
-
-    const { captchaToken } = getValues()
+  async function handleGuest() {
+    const captchaToken = ref.current?.getResponse()
 
     if (!captchaToken) {
       toast.error("Please complete the challenge", {
@@ -127,12 +132,14 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
       // Supabase auth will automatically update context
       window.location.href = redirect
     } catch (error: any) {
-      toast.error(error.message || "Sign up failed", {
+      toast.error("Guest sign up failed", {
         style: {
           color: "var(--destructive)",
         },
       })
     } finally {
+      // Reset the Turnstile component by changing the key to generate a new challenge
+      ref.current?.reset()
       setIsLoading(false)
     }
 
@@ -153,7 +160,7 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(handleSubmit)}>
               <div className="grid gap-6">
                 <div className="grid gap-6">
                   <FormField
@@ -231,6 +238,7 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
                       <FormItem className="flex flex-row items-center gap-2">
                         <FormControl>
                           <Turnstile
+                            ref={ref}
                             onSuccess={(token) => field.onChange(token)}
                             siteKey={siteKey}
                             options={{
@@ -268,6 +276,7 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
                 </div>
                 <div className="flex flex-col gap-4">
                   {/* <Button
+                    type="button"
                     variant="outline"
                     className="w-full"
                     disabled={isLoading}
@@ -281,6 +290,7 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
                     Sign Up with Apple
                   </Button> */}
                   <Button
+                    type="button"
                     variant="outline"
                     className="w-full"
                     disabled={isLoading}
@@ -294,6 +304,7 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
                     Sign up with Google
                   </Button>
                   <Button
+                    type="button"
                     variant="outline"
                     className="w-full"
                     disabled={isLoading}
