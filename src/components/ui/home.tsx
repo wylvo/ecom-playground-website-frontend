@@ -5,6 +5,7 @@ import { toast } from "sonner"
 import ButtonWithIcon from "./button-with-icon"
 import { Loader2Icon } from "lucide-react"
 import { useSupabaseAuth } from "@/features/auth/contexts/supabase-auth-context"
+import NewsletterSubscribeForm from "@/components/ui/newsletter-subscribe-form"
 
 const route = getRouteApi(
   window.location.pathname === "/" ? "/" : "/{-$locale}/",
@@ -46,6 +47,7 @@ function Home() {
             Logging in...
           </ButtonWithIcon>
         </div>
+        <NewsletterSubscribeForm />
       </div>
     </AppLayout>
   )
