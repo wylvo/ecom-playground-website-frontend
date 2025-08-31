@@ -2,9 +2,9 @@ import { GalleryVerticalEnd } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 
 import AuthLayout from "@/components/layouts/auth-layout"
-import LoginForm from "./login-form"
+import SignInForm from "./sign-in-form"
 
-function Login() {
+function SignIn() {
   return (
     <AuthLayout>
       <div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
@@ -18,11 +18,11 @@ function Login() {
             </div>
             Brand Name Inc.
           </Link>
-          <LoginForm />
+          <SignInForm />
         </div>
       </div>
     </AuthLayout>
   )
 }
 
-export default Login
+export default SignIn

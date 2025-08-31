@@ -13,8 +13,8 @@ import { createFileRoute } from "@tanstack/react-router"
 import { Route as rootRouteImport } from "./routes/__root"
 import { Route as IndexRouteImport } from "./routes/index"
 import { Route as Char123LocaleChar125IndexRouteImport } from "./routes/{-$locale}/index"
+import { Route as Char123LocaleChar125authSignInRouteImport } from "./routes/{-$locale}/(auth)/sign-in"
 import { Route as Char123LocaleChar125authRegisterRouteImport } from "./routes/{-$locale}/(auth)/register"
-import { Route as Char123LocaleChar125authLoginRouteImport } from "./routes/{-$locale}/(auth)/login"
 import { Route as Char123LocaleChar125appAuthenticatedRouteRouteImport } from "./routes/{-$locale}/(app)/_authenticated.route"
 import { Route as Char123LocaleChar125appProductsIndexRouteImport } from "./routes/{-$locale}/(app)/products/index"
 import { Route as Char123LocaleChar125appCollectionsIndexRouteImport } from "./routes/{-$locale}/(app)/collections/index"
@@ -48,16 +48,16 @@ const Char123LocaleChar125IndexRoute =
     path: "/{-$locale}/",
     getParentRoute: () => rootRouteImport,
   } as any)
+const Char123LocaleChar125authSignInRoute =
+  Char123LocaleChar125authSignInRouteImport.update({
+    id: "/{-$locale}/(auth)/sign-in",
+    path: "/{-$locale}/sign-in",
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const Char123LocaleChar125authRegisterRoute =
   Char123LocaleChar125authRegisterRouteImport.update({
     id: "/{-$locale}/(auth)/register",
     path: "/{-$locale}/register",
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char123LocaleChar125authLoginRoute =
-  Char123LocaleChar125authLoginRouteImport.update({
-    id: "/{-$locale}/(auth)/login",
-    path: "/{-$locale}/login",
     getParentRoute: () => rootRouteImport,
   } as any)
 const Char123LocaleChar125appAuthenticatedRouteRoute =
@@ -143,8 +143,8 @@ const Char123LocaleChar125appAuthenticatedAccountOrdersOrderIdRoute =
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
   "/{-$locale}": typeof Char123LocaleChar125appAuthenticatedRouteRouteWithChildren
-  "/{-$locale}/login": typeof Char123LocaleChar125authLoginRoute
   "/{-$locale}/register": typeof Char123LocaleChar125authRegisterRoute
+  "/{-$locale}/sign-in": typeof Char123LocaleChar125authSignInRoute
   "/{-$locale}/checkout/customer": typeof Char123LocaleChar125appCheckoutCustomerRoute
   "/{-$locale}/checkout/details": typeof Char123LocaleChar125appCheckoutDetailsRoute
   "/{-$locale}/checkout/shipping": typeof Char123LocaleChar125appCheckoutShippingRoute
@@ -161,8 +161,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
   "/{-$locale}": typeof Char123LocaleChar125appAuthenticatedRouteRouteWithChildren
-  "/{-$locale}/login": typeof Char123LocaleChar125authLoginRoute
   "/{-$locale}/register": typeof Char123LocaleChar125authRegisterRoute
+  "/{-$locale}/sign-in": typeof Char123LocaleChar125authSignInRoute
   "/{-$locale}/checkout/customer": typeof Char123LocaleChar125appCheckoutCustomerRoute
   "/{-$locale}/checkout/details": typeof Char123LocaleChar125appCheckoutDetailsRoute
   "/{-$locale}/checkout/shipping": typeof Char123LocaleChar125appCheckoutShippingRoute
@@ -182,8 +182,8 @@ export interface FileRoutesById {
   "/{-$locale}/": typeof Char123LocaleChar125IndexRoute
   "/{-$locale}/(app)": typeof Char123LocaleChar125appRouteWithChildren
   "/{-$locale}/(app)/_authenticated": typeof Char123LocaleChar125appAuthenticatedRouteRouteWithChildren
-  "/{-$locale}/(auth)/login": typeof Char123LocaleChar125authLoginRoute
   "/{-$locale}/(auth)/register": typeof Char123LocaleChar125authRegisterRoute
+  "/{-$locale}/(auth)/sign-in": typeof Char123LocaleChar125authSignInRoute
   "/{-$locale}/(app)/checkout/customer": typeof Char123LocaleChar125appCheckoutCustomerRoute
   "/{-$locale}/(app)/checkout/details": typeof Char123LocaleChar125appCheckoutDetailsRoute
   "/{-$locale}/(app)/checkout/shipping": typeof Char123LocaleChar125appCheckoutShippingRoute
@@ -202,8 +202,8 @@ export interface FileRouteTypes {
   fullPaths:
     | "/"
     | "/{-$locale}"
-    | "/{-$locale}/login"
     | "/{-$locale}/register"
+    | "/{-$locale}/sign-in"
     | "/{-$locale}/checkout/customer"
     | "/{-$locale}/checkout/details"
     | "/{-$locale}/checkout/shipping"
@@ -220,8 +220,8 @@ export interface FileRouteTypes {
   to:
     | "/"
     | "/{-$locale}"
-    | "/{-$locale}/login"
     | "/{-$locale}/register"
+    | "/{-$locale}/sign-in"
     | "/{-$locale}/checkout/customer"
     | "/{-$locale}/checkout/details"
     | "/{-$locale}/checkout/shipping"
@@ -240,8 +240,8 @@ export interface FileRouteTypes {
     | "/{-$locale}/"
     | "/{-$locale}/(app)"
     | "/{-$locale}/(app)/_authenticated"
-    | "/{-$locale}/(auth)/login"
     | "/{-$locale}/(auth)/register"
+    | "/{-$locale}/(auth)/sign-in"
     | "/{-$locale}/(app)/checkout/customer"
     | "/{-$locale}/(app)/checkout/details"
     | "/{-$locale}/(app)/checkout/shipping"
@@ -260,8 +260,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   Char123LocaleChar125IndexRoute: typeof Char123LocaleChar125IndexRoute
   Char123LocaleChar125appRoute: typeof Char123LocaleChar125appRouteWithChildren
-  Char123LocaleChar125authLoginRoute: typeof Char123LocaleChar125authLoginRoute
   Char123LocaleChar125authRegisterRoute: typeof Char123LocaleChar125authRegisterRoute
+  Char123LocaleChar125authSignInRoute: typeof Char123LocaleChar125authSignInRoute
 }
 
 declare module "@tanstack/react-router" {
@@ -287,18 +287,18 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof Char123LocaleChar125IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    "/{-$locale}/(auth)/sign-in": {
+      id: "/{-$locale}/(auth)/sign-in"
+      path: "/{-$locale}/sign-in"
+      fullPath: "/{-$locale}/sign-in"
+      preLoaderRoute: typeof Char123LocaleChar125authSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/{-$locale}/(auth)/register": {
       id: "/{-$locale}/(auth)/register"
       path: "/{-$locale}/register"
       fullPath: "/{-$locale}/register"
       preLoaderRoute: typeof Char123LocaleChar125authRegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    "/{-$locale}/(auth)/login": {
-      id: "/{-$locale}/(auth)/login"
-      path: "/{-$locale}/login"
-      fullPath: "/{-$locale}/login"
-      preLoaderRoute: typeof Char123LocaleChar125authLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     "/{-$locale}/(app)/_authenticated": {
@@ -462,8 +462,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   Char123LocaleChar125IndexRoute: Char123LocaleChar125IndexRoute,
   Char123LocaleChar125appRoute: Char123LocaleChar125appRouteWithChildren,
-  Char123LocaleChar125authLoginRoute: Char123LocaleChar125authLoginRoute,
   Char123LocaleChar125authRegisterRoute: Char123LocaleChar125authRegisterRoute,
+  Char123LocaleChar125authSignInRoute: Char123LocaleChar125authSignInRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

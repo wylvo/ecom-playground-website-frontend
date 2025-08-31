@@ -10,6 +10,9 @@ import {
   SupabaseAuthProvider,
   useSupabaseAuth,
 } from "./features/auth/contexts/supabase-auth-context"
+import "@/lib/i18n"
+import { QueryClientProvider } from "@tanstack/react-query"
+import { queryClient } from "@/router"
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
@@ -31,9 +34,11 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <SupabaseAuthProvider>
-        <App />
-      </SupabaseAuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <SupabaseAuthProvider>
+          <App />
+        </SupabaseAuthProvider>
+      </QueryClientProvider>
     </StrictMode>,
   )
 }

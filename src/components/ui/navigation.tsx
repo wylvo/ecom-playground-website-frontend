@@ -37,8 +37,8 @@ const navLinks = linkOptions([
     label: "Register",
   },
   {
-    to: "/{-$locale}/login" as string,
-    label: "Login",
+    to: "/{-$locale}/sign-in" as string,
+    label: "Sign in",
   },
 ])
 

@@ -1,9 +1,9 @@
-import Login from "@/features/auth/components/login"
+import SignIn from "@/features/auth/components/sign-in"
 import { isValidLocale } from "@/lib/utils"
 import { defaultLocale, type Locale } from "@/types/locale"
 import { createFileRoute, redirect } from "@tanstack/react-router"
 
-export const Route = createFileRoute("/{-$locale}/(auth)/login")({
+export const Route = createFileRoute("/{-$locale}/(auth)/sign-in")({
   validateSearch: (search) => ({
     redirect: (search.redirect as string) || "/{-$locale}/",
   }),
@@ -15,7 +15,7 @@ export const Route = createFileRoute("/{-$locale}/(auth)/login")({
     }
 
     if ((locale && !isValidLocale(locale)) || locale === defaultLocale) {
-      throw redirect({ to: "/login" as string })
+      throw redirect({ to: "/sign-in" as string })
     }
 
     return {
@@ -23,5 +23,5 @@ export const Route = createFileRoute("/{-$locale}/(auth)/login")({
       isDefaultLocale: !locale || locale === defaultLocale,
     }
   },
-  component: Login,
+  component: SignIn,
 })

@@ -16,7 +16,7 @@ import { toast } from "sonner"
 import ButtonWithIcon from "@/components/ui/button-with-icon"
 import { Loader2Icon } from "lucide-react"
 
-const route = getRouteApi("/{-$locale}/(auth)/login")
+const route = getRouteApi("/{-$locale}/(auth)/sign-in")
 
 function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const { auth, locale } = route.useRouteContext()
@@ -138,7 +138,7 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
                 {/* <Link
-                  from="/{-$locale}/login"
+                  from="/{-$locale}/sign-in"
                   to="/{-$locale}/register"
                   // search
                   className="underline underline-offset-4"

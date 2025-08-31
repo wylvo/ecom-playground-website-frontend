@@ -1,19 +1,21 @@
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
 import { QueryClient } from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 import { useValidateLocale } from "@/hooks/useValidateLocale"
+import { useLanguageChange } from "@/hooks/useLanguageChange"
 import ErrorNotFound from "@/components/errors/error-not-found"
 // import ErrorFallback from "@/components/errors/error-fallback"
 import type { SupabaseAuthState } from "@/features/auth/contexts/supabase-auth-context"
 
-interface MyRouterContext {
+interface RouterContext {
   locale: ReturnType<typeof useValidateLocale>
   queryClient: QueryClient
   auth: SupabaseAuthState
 }
 
-export const Route = createRootRouteWithContext<MyRouterContext>()({
+export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
     meta: [
       {
@@ -39,12 +41,19 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
     ],
   }),
-  component: () => (
-    <>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
+  component: Root,
   notFoundComponent: ErrorNotFound,
   // errorComponent: ErrorFallback,
 })
+
+function Root() {
+  useLanguageChange()
+
+  return (
+    <>
+      <Outlet />
+      <TanStackRouterDevtools />
+      <ReactQueryDevtools />
+    </>
+  )
+}

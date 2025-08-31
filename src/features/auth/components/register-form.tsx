@@ -27,6 +27,7 @@ import {
   FormLabel,
 } from "@/components/ui/shadcn/form"
 import { Checkbox } from "@/components/ui/shadcn/checkbox"
+import { useSupabaseAuth } from "../contexts/supabase-auth-context"
 
 const registerSchema = z.object({
   email: z.email({ error: "Please insert a valid email" }),
@@ -44,11 +45,11 @@ const route = getRouteApi("/{-$locale}/(auth)/register")
 const siteKey = import.meta.env.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY
 
 function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
-  const { auth, locale } = route.useRouteContext()
+  const { locale } = route.useRouteContext()
   const { redirect } = route.useSearch()
+  const { isLoading, signUp, signInAnonymously } = useSupabaseAuth()
 
   const ref = useRef<TurnstileInstance | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<RegisterFormFields>({
     resolver: zodResolver(registerSchema),
@@ -85,33 +86,31 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
       return
     }
 
-    setIsLoading(true)
+    signUp(
+      { email, password, captchaToken },
+      {
+        onSuccess: () => {
+          toast.success("You've successfully signed up!")
 
-    try {
-      await auth.signUp(email, password, captchaToken)
-
-      // Supabase auth will automatically update context
-      window.location.href = redirect
-    } catch (error: any) {
-      toast.error("Sign up failed", {
-        style: {
-          color: "var(--destructive)",
+          // Supabase auth will automatically update context
+          window.location.href = redirect
         },
-      })
-    } finally {
-      // Reset the Turnstile component by changing the key to generate a new challenge
-      ref.current?.reset()
-      form.reset({
-        hasAcceptedTerms: true,
-      })
-      form.clearErrors()
-      setIsLoading(false)
-    }
-
-    if (auth.user)
-      toast.success(
-        `You've successfully signed up! ${auth.user.email} [${auth.user.id}]`,
-      )
+        onError: (error) => {
+          console.error(error)
+          toast.error("Sign up failed", {
+            style: {
+              color: "var(--destructive)",
+            },
+          })
+        },
+        onSettled: () => {
+          // Reset the Turnstile component to generate a new challenge
+          ref.current?.reset()
+          form.reset({ hasAcceptedTerms: true, captchaToken: "" })
+          form.clearErrors()
+        },
+      },
+    )
   }
 
   async function handleGuest() {
@@ -126,27 +125,31 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
       return
     }
 
-    try {
-      await auth.loginAnonymously(captchaToken)
+    signInAnonymously(captchaToken, {
+      onSuccess: () => {
+        toast.success("You have successfully continued as guest")
 
-      // Supabase auth will automatically update context
-      window.location.href = redirect
-    } catch (error: any) {
-      toast.error("Guest sign up failed", {
-        style: {
-          color: "var(--destructive)",
-        },
-      })
-    } finally {
-      // Reset the Turnstile component by changing the key to generate a new challenge
-      ref.current?.reset()
-      setIsLoading(false)
-    }
+        // Supabase auth will automatically update context
+        window.location.href = redirect
+      },
+      onError: (error) => {
+        console.error(error)
+        toast.error("Continue as guest failed", {
+          style: {
+            color: "var(--destructive)",
+          },
+        })
+      },
+      onSettled: () => {
+        // Reset the Turnstile component to generate a new challenge
+        ref.current?.reset()
+        form.clearErrors()
+      },
+    })
+  }
 
-    if (auth.user)
-      toast.success(
-        `You've successfully signed up! ${auth.user.email} [${auth.user.id}]`,
-      )
+  async function handleGoogleAuth() {
+    toast.info("Clicked google auth")
   }
 
   return (
@@ -293,6 +296,7 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
                     type="button"
                     variant="outline"
                     className="w-full"
+                    onClick={handleGoogleAuth}
                     disabled={isLoading}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -317,11 +321,11 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
                   Already have an account?{" "}
                   <Link
                     from="/{-$locale}/register"
-                    to="/{-$locale}/login"
+                    to="/{-$locale}/sign-in"
                     search
                     className="underline underline-offset-4"
                   >
-                    Login
+                    Sign In
                   </Link>
                 </div>
               </div>

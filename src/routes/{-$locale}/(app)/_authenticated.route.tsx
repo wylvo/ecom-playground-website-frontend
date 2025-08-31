@@ -5,7 +5,7 @@ export const Route = createFileRoute("/{-$locale}/(app)/_authenticated")({
   beforeLoad: async ({ context }) => {
     if (!context.auth.isAuthenticated) {
       const { data } = await supabase.auth.getClaims()
-      if (!data?.claims) throw redirect({ to: "/{-$locale}/login" as string })
+      if (!data?.claims) throw redirect({ to: "/{-$locale}/sign-in" as string })
       return { auth: { isAuthenticated: true } }
     }
   },
