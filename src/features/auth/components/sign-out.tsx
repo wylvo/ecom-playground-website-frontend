@@ -33,7 +33,7 @@ function SignOut() {
       {isAuthenticatedUser && (
         <ButtonWithIcon
           size="sm"
-          variant="outline"
+          variant="ghost"
           icon={<LogOut />}
           onClick={handleSignout}
         />

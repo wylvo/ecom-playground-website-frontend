@@ -15,13 +15,15 @@ type SelectOptionsData = {
 }[]
 
 type SelectOptionsProps = {
-  data?: SelectOptionsData
+  data: SelectOptionsData
   label?: string
   selectLabel?: string
   placeholder?: string
   defaultValue?: string
   onValueChange?(value: string): void
 }
+
+export type SelectedOptions = Record<string, string>
 
 export function SelectOptions({
   data,

@@ -1,3 +1,4 @@
+import Cart from "@/features/cart/components/cart"
 import { isValidLocale } from "@/lib/utils"
 import { defaultLocale, type Locale } from "@/types/locale"
 import { createFileRoute, redirect } from "@tanstack/react-router"
@@ -15,16 +16,5 @@ export const Route = createFileRoute("/{-$locale}/(app)/cart/")({
       isDefaultLocale: !locale || locale === defaultLocale,
     }
   },
-  component: RouteComponent,
+  component: Cart,
 })
-
-function RouteComponent() {
-  const { locale } = Route.useRouteContext()
-
-  return (
-    <div>
-      <div>Hello "/-$locale/(app)/cart/"!</div>
-      <div>Locale: {locale}</div>
-    </div>
-  )
-}

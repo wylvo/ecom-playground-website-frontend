@@ -4,7 +4,7 @@ import {
   useQuery,
   type UseQueryOptions,
 } from "@tanstack/react-query"
-import { useParams, useSearch } from "@tanstack/react-router"
+import { useParams } from "@tanstack/react-router"
 import z from "zod"
 
 export const getProductVariants = async ({
@@ -123,10 +123,6 @@ export function useProductVariants(
   queryOptions: typeof createProductVariantsQueryOptions = createProductVariantsQueryOptions,
 ) {
   const { productHandle: handle } = useParams({
-    from: "/{-$locale}/(app)/products/$productHandle",
-  })
-
-  const { variant } = useSearch({
     from: "/{-$locale}/(app)/products/$productHandle",
   })
 

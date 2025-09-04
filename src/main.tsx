@@ -13,6 +13,7 @@ import {
 import "@/lib/i18n"
 import { QueryClientProvider } from "@tanstack/react-query"
 import { queryClient } from "@/router"
+import { CartProvider } from "./features/cart/contexts/cart-context"
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
@@ -36,7 +37,9 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <SupabaseAuthProvider>
-          <App />
+          <CartProvider>
+            <App />
+          </CartProvider>
         </SupabaseAuthProvider>
       </QueryClientProvider>
     </StrictMode>,

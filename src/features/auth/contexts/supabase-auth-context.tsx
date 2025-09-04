@@ -8,8 +8,8 @@ import { useMutation, type UseMutateFunction } from "@tanstack/react-query"
 import type { AuthRequiredFields } from "@/features/auth/api/supabase-auth.ts"
 import * as supabaseAuth from "@/features/auth/api/supabase-auth.ts"
 
-type UserClaims = JwtPayload | undefined
-type User = SupabaseUser | UserClaims | null
+export type UserClaims = JwtPayload | undefined
+export type User = SupabaseUser | UserClaims | null
 
 export interface SupabaseAuthState {
   isAuthenticated: boolean

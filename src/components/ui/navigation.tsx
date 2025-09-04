@@ -5,6 +5,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/shadcn/navigation-menu"
+import { useSupabaseAuth } from "@/features/auth/contexts/supabase-auth-context"
 
 const navLinks = linkOptions([
   {
@@ -21,16 +22,16 @@ const navLinks = linkOptions([
     label: "Products",
   },
   {
-    to: "/{-$locale}/cart",
-    label: "Cart",
-  },
-  {
     to: "/{-$locale}/checkout/customer",
     label: "Checkout",
   },
   {
     to: "/{-$locale}/account",
     label: "Account",
+  },
+  {
+    to: "/{-$locale}/cart",
+    label: "Cart",
   },
   {
     to: "/{-$locale}/register" as string,
@@ -43,11 +44,28 @@ const navLinks = linkOptions([
 ])
 
 function Navigation() {
+  const { isAuthenticated, user } = useSupabaseAuth()
+  const isAnonymous = user?.is_anonymous
+
   return (
     <>
       <NavigationMenu>
         <NavigationMenuList>
           {navLinks.map((linkOption) => {
+            if (
+              isAuthenticated &&
+              !isAnonymous &&
+              linkOption.to === "/{-$locale}/sign-in"
+            )
+              return
+
+            if (
+              isAuthenticated &&
+              !isAnonymous &&
+              linkOption.to === "/{-$locale}/register"
+            )
+              return
+
             return (
               <NavigationMenuItem key={linkOption.to}>
                 <NavigationMenuLink asChild>

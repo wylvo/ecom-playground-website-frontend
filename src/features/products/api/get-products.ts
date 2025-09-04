@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query"
 import { z } from "zod"
 
-export const getProducts = async (params?: GetProductsOptions) => {
+export const getProducts = async (/*params?: GetProductsOptions*/) => {
   const { data, error } = await supabase
     .from("products")
     .select(
@@ -49,7 +49,7 @@ export function createProductsQueryOptions<
   return queryOptions({
     ...options,
     queryKey: ["products", params],
-    queryFn: () => getProducts(params),
+    queryFn: () => getProducts(/*params*/),
   })
 }
 
