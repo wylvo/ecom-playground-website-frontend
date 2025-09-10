@@ -20,6 +20,7 @@ import { Route as Char123LocaleChar125appProductsIndexRouteImport } from "./rout
 import { Route as Char123LocaleChar125appCollectionsIndexRouteImport } from "./routes/{-$locale}/(app)/collections/index"
 import { Route as Char123LocaleChar125appCartIndexRouteImport } from "./routes/{-$locale}/(app)/cart/index"
 import { Route as Char123LocaleChar125appProductsProductHandleRouteImport } from "./routes/{-$locale}/(app)/products/$productHandle"
+import { Route as Char123LocaleChar125appNewsletterUnsubscribeRouteImport } from "./routes/{-$locale}/(app)/newsletter/unsubscribe"
 import { Route as Char123LocaleChar125appCollectionsChar123CollectionHandleChar125RouteImport } from "./routes/{-$locale}/(app)/collections/{-$collectionHandle}"
 import { Route as Char123LocaleChar125appCheckoutShippingRouteImport } from "./routes/{-$locale}/(app)/checkout/shipping"
 import { Route as Char123LocaleChar125appCheckoutDetailsRouteImport } from "./routes/{-$locale}/(app)/checkout/details"
@@ -89,6 +90,12 @@ const Char123LocaleChar125appProductsProductHandleRoute =
     path: "/products/$productHandle",
     getParentRoute: () => Char123LocaleChar125appRoute,
   } as any)
+const Char123LocaleChar125appNewsletterUnsubscribeRoute =
+  Char123LocaleChar125appNewsletterUnsubscribeRouteImport.update({
+    id: "/newsletter/unsubscribe",
+    path: "/newsletter/unsubscribe",
+    getParentRoute: () => Char123LocaleChar125appRoute,
+  } as any)
 const Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route =
   Char123LocaleChar125appCollectionsChar123CollectionHandleChar125RouteImport.update(
     {
@@ -149,6 +156,7 @@ export interface FileRoutesByFullPath {
   "/{-$locale}/checkout/details": typeof Char123LocaleChar125appCheckoutDetailsRoute
   "/{-$locale}/checkout/shipping": typeof Char123LocaleChar125appCheckoutShippingRoute
   "/{-$locale}/collections/{-$collectionHandle}": typeof Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route
+  "/{-$locale}/newsletter/unsubscribe": typeof Char123LocaleChar125appNewsletterUnsubscribeRoute
   "/{-$locale}/products/$productHandle": typeof Char123LocaleChar125appProductsProductHandleRoute
   "/{-$locale}/cart": typeof Char123LocaleChar125appCartIndexRoute
   "/{-$locale}/collections": typeof Char123LocaleChar125appCollectionsIndexRoute
@@ -167,6 +175,7 @@ export interface FileRoutesByTo {
   "/{-$locale}/checkout/details": typeof Char123LocaleChar125appCheckoutDetailsRoute
   "/{-$locale}/checkout/shipping": typeof Char123LocaleChar125appCheckoutShippingRoute
   "/{-$locale}/collections/{-$collectionHandle}": typeof Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route
+  "/{-$locale}/newsletter/unsubscribe": typeof Char123LocaleChar125appNewsletterUnsubscribeRoute
   "/{-$locale}/products/$productHandle": typeof Char123LocaleChar125appProductsProductHandleRoute
   "/{-$locale}/cart": typeof Char123LocaleChar125appCartIndexRoute
   "/{-$locale}/collections": typeof Char123LocaleChar125appCollectionsIndexRoute
@@ -188,6 +197,7 @@ export interface FileRoutesById {
   "/{-$locale}/(app)/checkout/details": typeof Char123LocaleChar125appCheckoutDetailsRoute
   "/{-$locale}/(app)/checkout/shipping": typeof Char123LocaleChar125appCheckoutShippingRoute
   "/{-$locale}/(app)/collections/{-$collectionHandle}": typeof Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route
+  "/{-$locale}/(app)/newsletter/unsubscribe": typeof Char123LocaleChar125appNewsletterUnsubscribeRoute
   "/{-$locale}/(app)/products/$productHandle": typeof Char123LocaleChar125appProductsProductHandleRoute
   "/{-$locale}/(app)/cart/": typeof Char123LocaleChar125appCartIndexRoute
   "/{-$locale}/(app)/collections/": typeof Char123LocaleChar125appCollectionsIndexRoute
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | "/{-$locale}/checkout/details"
     | "/{-$locale}/checkout/shipping"
     | "/{-$locale}/collections/{-$collectionHandle}"
+    | "/{-$locale}/newsletter/unsubscribe"
     | "/{-$locale}/products/$productHandle"
     | "/{-$locale}/cart"
     | "/{-$locale}/collections"
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | "/{-$locale}/checkout/details"
     | "/{-$locale}/checkout/shipping"
     | "/{-$locale}/collections/{-$collectionHandle}"
+    | "/{-$locale}/newsletter/unsubscribe"
     | "/{-$locale}/products/$productHandle"
     | "/{-$locale}/cart"
     | "/{-$locale}/collections"
@@ -246,6 +258,7 @@ export interface FileRouteTypes {
     | "/{-$locale}/(app)/checkout/details"
     | "/{-$locale}/(app)/checkout/shipping"
     | "/{-$locale}/(app)/collections/{-$collectionHandle}"
+    | "/{-$locale}/(app)/newsletter/unsubscribe"
     | "/{-$locale}/(app)/products/$productHandle"
     | "/{-$locale}/(app)/cart/"
     | "/{-$locale}/(app)/collections/"
@@ -334,6 +347,13 @@ declare module "@tanstack/react-router" {
       path: "/products/$productHandle"
       fullPath: "/{-$locale}/products/$productHandle"
       preLoaderRoute: typeof Char123LocaleChar125appProductsProductHandleRouteImport
+      parentRoute: typeof Char123LocaleChar125appRoute
+    }
+    "/{-$locale}/(app)/newsletter/unsubscribe": {
+      id: "/{-$locale}/(app)/newsletter/unsubscribe"
+      path: "/newsletter/unsubscribe"
+      fullPath: "/{-$locale}/newsletter/unsubscribe"
+      preLoaderRoute: typeof Char123LocaleChar125appNewsletterUnsubscribeRouteImport
       parentRoute: typeof Char123LocaleChar125appRoute
     }
     "/{-$locale}/(app)/collections/{-$collectionHandle}": {
@@ -425,6 +445,7 @@ interface Char123LocaleChar125appRouteChildren {
   Char123LocaleChar125appCheckoutDetailsRoute: typeof Char123LocaleChar125appCheckoutDetailsRoute
   Char123LocaleChar125appCheckoutShippingRoute: typeof Char123LocaleChar125appCheckoutShippingRoute
   Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route: typeof Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route
+  Char123LocaleChar125appNewsletterUnsubscribeRoute: typeof Char123LocaleChar125appNewsletterUnsubscribeRoute
   Char123LocaleChar125appProductsProductHandleRoute: typeof Char123LocaleChar125appProductsProductHandleRoute
   Char123LocaleChar125appCartIndexRoute: typeof Char123LocaleChar125appCartIndexRoute
   Char123LocaleChar125appCollectionsIndexRoute: typeof Char123LocaleChar125appCollectionsIndexRoute
@@ -443,6 +464,8 @@ const Char123LocaleChar125appRouteChildren: Char123LocaleChar125appRouteChildren
       Char123LocaleChar125appCheckoutShippingRoute,
     Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route:
       Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route,
+    Char123LocaleChar125appNewsletterUnsubscribeRoute:
+      Char123LocaleChar125appNewsletterUnsubscribeRoute,
     Char123LocaleChar125appProductsProductHandleRoute:
       Char123LocaleChar125appProductsProductHandleRoute,
     Char123LocaleChar125appCartIndexRoute:

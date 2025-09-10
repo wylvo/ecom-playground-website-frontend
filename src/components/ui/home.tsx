@@ -5,7 +5,7 @@ import { toast } from "sonner"
 import ButtonWithIcon from "./button-with-icon"
 import { Loader2Icon } from "lucide-react"
 import { useSupabaseAuth } from "@/features/auth/contexts/supabase-auth-context"
-import NewsletterSubscribeForm from "@/components/ui/newsletter-subscribe-form"
+import NewsletterSubscribeForm from "@/features/newsletter/components/newsletter-subscribe-form"
 import { useTranslation } from "react-i18next"
 
 const route = getRouteApi(
