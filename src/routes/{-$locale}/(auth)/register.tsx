@@ -1,26 +1,14 @@
-import Register from "@/features/auth/components/register"
-import { isValidLocale } from "@/lib/utils"
-import { defaultLocale, type Locale } from "@/types/locale"
 import { createFileRoute, redirect } from "@tanstack/react-router"
+
+import Register from "@/features/auth/components/register"
 
 export const Route = createFileRoute("/{-$locale}/(auth)/register")({
   validateSearch: (search) => ({
     redirect: (search.redirect as string) || "/{-$locale}/",
   }),
-  beforeLoad: ({ context, search, params }) => {
-    const { locale } = params
-
-    if (context.auth.isAuthenticated) {
+  beforeLoad: ({ context, search }) => {
+    if (context.auth.isAuthenticated && !context.auth.user?.is_anonymous) {
       throw redirect({ to: search.redirect })
-    }
-
-    if ((locale && !isValidLocale(locale)) || locale === defaultLocale) {
-      throw redirect({ to: "/register" as string })
-    }
-
-    return {
-      locale: (locale as Locale) || defaultLocale,
-      isDefaultLocale: !locale || locale === defaultLocale,
     }
   },
   component: Register,

@@ -15,7 +15,7 @@ import {
 import AppLayout from "@/components/layouts/app-layout"
 import { useCart } from "@/features/cart/contexts/cart-context"
 
-const route = getRouteApi("/{-$locale}/(app)/products/$productHandle")
+const route = getRouteApi("/{-$locale}/(app)/products/{-$productHandle}")
 
 function ProductHandle() {
   const navigate = route.useNavigate()

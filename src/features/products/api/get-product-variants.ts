@@ -113,7 +113,7 @@ export type GetProductVariantsResponse = Awaited<
   ReturnType<typeof getProductVariants>
 >
 
-export type GetProductVariantsOptions = { handle: string; variant?: number }
+export type GetProductVariantsOptions = { handle?: string; variant?: number }
 
 export const productHandleVariantParamsSchema = z.object({
   variant: z.number().optional().catch(undefined),
@@ -123,7 +123,7 @@ export function useProductVariants(
   queryOptions: typeof createProductVariantsQueryOptions = createProductVariantsQueryOptions,
 ) {
   const { productHandle: handle } = useParams({
-    from: "/{-$locale}/(app)/products/$productHandle",
+    from: "/{-$locale}/(app)/products/{-$productHandle}",
   })
 
   const { data: product, error, isLoading } = useQuery(queryOptions({ handle }))

@@ -27,7 +27,7 @@ function Products() {
               />
               <Link
                 className="underline underline-offset-4"
-                to="/{-$locale}/products/$productHandle"
+                to="/{-$locale}/products/{-$productHandle}"
                 params={{ productHandle: product.handle }}
               >
                 {product.name}

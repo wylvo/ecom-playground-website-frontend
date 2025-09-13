@@ -19,7 +19,7 @@ import {
   type UserClaims,
 } from "@/features/auth/contexts/supabase-auth-context"
 
-interface CartContextValue {
+export interface CartContext {
   cart: GetCartResponse | undefined
   isLoading: boolean
   error: Error | null
@@ -33,7 +33,7 @@ interface CartContextValue {
   >
 }
 
-const CartContext = createContext<CartContextValue | undefined>(undefined)
+const CartContext = createContext<CartContext | undefined>(undefined)
 
 function CartProvider({ children }: { children: React.ReactNode }) {
   const { user } = useSupabaseAuth()

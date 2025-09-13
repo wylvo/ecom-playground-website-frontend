@@ -183,6 +183,7 @@ function SignInForm({ className, ...props }: React.ComponentProps<"div">) {
                         <FormControl>
                           <Input
                             type="password"
+                            placeholder="••••••••"
                             autoComplete="current-password"
                             disabled={isLoading}
                             {...field}
@@ -235,7 +236,7 @@ function SignInForm({ className, ...props }: React.ComponentProps<"div">) {
                   <Link
                     from="/{-$locale}/sign-in"
                     to="/{-$locale}/register"
-                    search
+                    search //={{ redirect: "/{-$locale}" }}
                     className="underline underline-offset-4"
                     disabled={isLoading}
                   >

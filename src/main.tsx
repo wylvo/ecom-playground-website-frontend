@@ -13,7 +13,7 @@ import {
 import "@/lib/i18n"
 import { QueryClientProvider } from "@tanstack/react-query"
 import { queryClient } from "@/router"
-import { CartProvider } from "./features/cart/contexts/cart-context"
+import { CartProvider, useCart } from "./features/cart/contexts/cart-context"
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
@@ -25,8 +25,9 @@ declare module "@tanstack/react-router" {
 export function App() {
   const locale = useValidateLocale(defaultLocale)
   const auth = useSupabaseAuth()
+  const cart = useCart()
 
-  return <RouterProvider router={router} context={{ auth, locale }} />
+  return <RouterProvider router={router} context={{ auth, cart, locale }} />
 }
 
 // Render the app

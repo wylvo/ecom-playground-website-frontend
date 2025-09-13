@@ -1,22 +1,17 @@
 import { createFileRoute, redirect } from "@tanstack/react-router"
 
-import { defaultLocale, type Locale } from "@/types/locale"
-import { isValidLocale } from "@/lib/utils"
-
 export const Route = createFileRoute(
   "/{-$locale}/(app)/_authenticated/account/",
 )({
-  beforeLoad: ({ params }) => {
-    const { locale } = params
-
-    if ((locale && !isValidLocale(locale)) || locale === defaultLocale) {
-      throw redirect({ to: "/account" as string })
-    }
-
-    return {
-      locale: (locale as Locale) || defaultLocale,
-      isDefaultLocale: !locale || locale === defaultLocale,
-    }
+  beforeLoad: ({ context, location }) => {
+    if (
+      !context.auth.isAuthenticated ||
+      (context.auth.isAuthenticated && context.auth.user?.is_anonymous)
+    )
+      throw redirect({
+        to: "/{-$locale}/sign-in",
+        search: { redirect: location.href },
+      })
   },
   component: RouteComponent,
 })

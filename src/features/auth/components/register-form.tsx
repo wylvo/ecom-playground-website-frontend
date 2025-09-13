@@ -47,10 +47,9 @@ const siteKey = import.meta.env.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY
 function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
   const { locale } = route.useRouteContext()
   const { redirect } = route.useSearch()
-  const { isLoading, signUp, signInAnonymously } = useSupabaseAuth()
-
+  const { user, isAuthenticated, isLoading, signUp, signInAnonymously } =
+    useSupabaseAuth()
   const ref = useRef<TurnstileInstance | null>(null)
-
   const form = useForm<RegisterFormFields>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -60,6 +59,8 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
       captchaToken: "",
     },
   })
+
+  const isAuthenticatedAnonymousUser = isAuthenticated && user?.is_anonymous
 
   const {
     formState: { errors },
@@ -114,6 +115,8 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
   }
 
   async function handleGuest() {
+    if (isAuthenticatedAnonymousUser) return
+
     const captchaToken = ref.current?.getResponse()
 
     if (!captchaToken) {
@@ -198,6 +201,7 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
                         <FormControl>
                           <Input
                             type="password"
+                            placeholder="••••••••"
                             autoComplete="current-password"
                             disabled={isLoading}
                             {...field}
@@ -220,9 +224,8 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
                         <FormControl>
                           <Checkbox
                             id="hasAcceptedTerms"
-                            onCheckedChange={(checked) =>
-                              field.onChange(checked)
-                            }
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
                             disabled={isLoading}
                           />
                         </FormControl>
@@ -307,15 +310,17 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
                     </svg>
                     Sign up with Google
                   </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="w-full"
-                    disabled={isLoading}
-                    onClick={handleGuest}
-                  >
-                    Continue as guest
-                  </Button>
+                  {!isAuthenticatedAnonymousUser && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full"
+                      disabled={isLoading}
+                      onClick={handleGuest}
+                    >
+                      Continue as guest
+                    </Button>
+                  )}
                 </div>
                 <div className="text-center text-sm">
                   Already have an account?{" "}

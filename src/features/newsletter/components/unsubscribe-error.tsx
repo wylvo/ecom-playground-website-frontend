@@ -1,5 +1,6 @@
 import NewsletterLayout from "@/components/layouts/newsletter-layout"
 import type { AxiosError } from "axios"
+import type { NewsletterUnsubscribeResponse } from "../api/unsubscribe"
 
 type UnsubscribeErrorProps = {
   error: Error & AxiosError
@@ -12,7 +13,8 @@ function UnsubscribeError({ error }: UnsubscribeErrorProps) {
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-medium">An error occured</h1>
           <p className="text-muted-foreground text-sm">
-            {error?.response?.data?.message || "Something went wrong!"}
+            {(error?.response?.data as Awaited<NewsletterUnsubscribeResponse>)
+              .message || "Something went wrong!"}
           </p>
         </div>
       </div>

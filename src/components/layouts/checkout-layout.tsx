@@ -8,6 +8,7 @@ function CheckoutLayout({ children }: CheckoutLayoutProps) {
   return (
     <>
       <Header />
+      <hr />
       <main>{children}</main>
     </>
   )

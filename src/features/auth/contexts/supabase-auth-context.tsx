@@ -11,7 +11,7 @@ import * as supabaseAuth from "@/features/auth/api/supabase-auth.ts"
 export type UserClaims = JwtPayload | undefined
 export type User = SupabaseUser | UserClaims | null
 
-export interface SupabaseAuthState {
+export interface SupabaseAuthContext {
   isAuthenticated: boolean
   user: User
   signUp: UseMutateFunction<void, Error, AuthRequiredFields, unknown>
@@ -23,7 +23,7 @@ export interface SupabaseAuthState {
 }
 
 // Create the context
-const SupabaseAuthContext = createContext<SupabaseAuthState | undefined>(
+const SupabaseAuthContext = createContext<SupabaseAuthContext | undefined>(
   undefined,
 )
 

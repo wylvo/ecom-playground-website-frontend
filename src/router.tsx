@@ -2,6 +2,16 @@ import { createRouter } from "@tanstack/react-router"
 import { QueryClient } from "@tanstack/react-query"
 
 import { routeTree } from "./routeTree.gen"
+import type { CartContext } from "@/features/cart/contexts/cart-context"
+import type { SupabaseAuthContext } from "@/features/auth/contexts/supabase-auth-context"
+import type { useValidateLocale } from "@/hooks/useValidateLocale"
+
+export interface RouterContext {
+  locale: ReturnType<typeof useValidateLocale>
+  queryClient: QueryClient
+  auth: SupabaseAuthContext
+  cart: CartContext
+}
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,6 +29,7 @@ export const router = createRouter({
   context: {
     locale: undefined!,
     auth: undefined!,
+    cart: undefined!,
     queryClient,
   },
 })

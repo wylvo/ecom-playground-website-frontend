@@ -86,7 +86,7 @@ function Cart() {
               return (
                 <div key={cart_item.id} className="flex gap-2">
                   <Link
-                    to="/{-$locale}/products/$productHandle"
+                    to="/{-$locale}/products/{-$productHandle}"
                     params={{ productHandle: variant.product.handle }}
                     search={{ variant: variant.id }}
                   >
