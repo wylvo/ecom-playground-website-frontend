@@ -10,7 +10,7 @@ export const Route = createFileRoute(
     )
       throw redirect({
         to: "/{-$locale}/sign-in",
-        search: { redirect: location.href },
+        search: { redirect: location.pathname },
       })
   },
   component: RouteComponent,

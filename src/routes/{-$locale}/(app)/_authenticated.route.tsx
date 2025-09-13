@@ -11,13 +11,17 @@ export const Route = createFileRoute("/{-$locale}/(app)/_authenticated")({
     if (!isAuthenticated)
       throw redirect({
         to: "/{-$locale}/sign-in",
-        search: { redirect: location.href },
+        search: { redirect: location.pathname },
       })
 
-    if (isAuthenticated && isAnonymous && location.href.startsWith("/account"))
+    if (
+      isAuthenticated &&
+      isAnonymous &&
+      location.pathname.startsWith("/account")
+    )
       throw redirect({
         to: "/{-$locale}/sign-in",
-        search: { redirect: location.href },
+        search: { redirect: location.pathname },
       })
 
     return { auth: { isAuthenticated, user } }
