@@ -1,11 +1,5 @@
-import CheckoutLayout from "@/components/layouts/checkout-layout"
-
 function Summary() {
-  return (
-    <CheckoutLayout>
-      <div>Hello "/-$locale/(app)/checkout/summary"!</div>
-    </CheckoutLayout>
-  )
+  return <div>Hello "/-$locale/(app)/checkout/summary"!</div>
 }
 
 export default Summary

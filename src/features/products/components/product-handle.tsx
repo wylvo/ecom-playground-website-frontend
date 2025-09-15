@@ -12,7 +12,6 @@ import {
   SelectOptions,
   type SelectedOptions,
 } from "@/components/ui/select-options"
-import AppLayout from "@/components/layouts/app-layout"
 import { useCart } from "@/features/cart/contexts/cart-context"
 
 const route = getRouteApi("/{-$locale}/(app)/products/{-$productHandle}")
@@ -113,7 +112,7 @@ function ProductHandle() {
   if (!productVariant) productVariant = product.variants[0]!
 
   return (
-    <AppLayout>
+    <>
       <div>
         <div>Hello "/(app)/products/$productHandle"!</div>
         <div>Product Handle: {handle} </div>
@@ -178,7 +177,7 @@ function ProductHandle() {
             ))}
         </div>
       </div>
-    </AppLayout>
+    </>
   )
 }
 

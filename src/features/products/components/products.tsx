@@ -1,6 +1,5 @@
 import { getRouteApi, Link } from "@tanstack/react-router"
 
-import AppLayout from "@/components/layouts/app-layout"
 import { useProducts } from "@/features/products/api/get-products"
 
 const route = getRouteApi("/{-$locale}/(app)/products/")
@@ -10,7 +9,7 @@ function Products() {
   const { products } = useProducts()
 
   return (
-    <AppLayout>
+    <>
       <div>Hello "/(app)/products/"!</div>
       <p>Locale: {locale}</p>
 
@@ -37,7 +36,7 @@ function Products() {
             </div>
           ))}
       </div>
-    </AppLayout>
+    </>
   )
 }
 

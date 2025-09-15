@@ -1,4 +1,4 @@
-import { Link, linkOptions } from "@tanstack/react-router"
+import { Link, linkOptions, useLocation } from "@tanstack/react-router"
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -45,6 +45,7 @@ const navLinks = linkOptions([
 
 function Navigation() {
   const { isAuthenticated, user } = useSupabaseAuth()
+  const location = useLocation()
   const isAnonymous = user?.is_anonymous
 
   return (
@@ -69,14 +70,27 @@ function Navigation() {
             return (
               <NavigationMenuItem key={linkOption.to}>
                 <NavigationMenuLink asChild>
-                  <Link
-                    //{...linkOption}
-                    key={linkOption.to}
-                    to={linkOption.to}
-                    activeProps={{ className: "font-bold" }}
-                  >
-                    {linkOption.label}
-                  </Link>
+                  {linkOption.to === "/{-$locale}/register" ||
+                  linkOption.to === "/{-$locale}/sign-in" ? (
+                    <Link
+                      // {...linkOption}
+                      key={linkOption.to}
+                      to={linkOption.to}
+                      activeProps={{ className: "font-bold" }}
+                      search={{ redirect: location.pathname }}
+                    >
+                      {linkOption.label}
+                    </Link>
+                  ) : (
+                    <Link
+                      // {...linkOption}
+                      key={linkOption.to}
+                      to={linkOption.to}
+                      activeProps={{ className: "font-bold" }}
+                    >
+                      {linkOption.label}
+                    </Link>
+                  )}
                 </NavigationMenuLink>
               </NavigationMenuItem>
             )

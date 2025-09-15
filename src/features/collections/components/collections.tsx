@@ -1,4 +1,3 @@
-import AppLayout from "@/components/layouts/app-layout"
 import { useCollections } from "@/features/collections/api/get-collections"
 import { getRouteApi, Link } from "@tanstack/react-router"
 
@@ -9,7 +8,7 @@ function Collections() {
   const { collections } = useCollections()
 
   return (
-    <AppLayout>
+    <>
       <div>Hello "/-$locale/(app)/collections/"!</div>
       <div>Locale: {locale}</div>
 
@@ -32,7 +31,7 @@ function Collections() {
             </div>
           ))}
       </div>
-    </AppLayout>
+    </>
   )
 }
 

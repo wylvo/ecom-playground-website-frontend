@@ -1,6 +1,5 @@
 import { getRouteApi, Link } from "@tanstack/react-router"
 
-import AppLayout from "@/components/layouts/app-layout"
 import { useCollection } from "@/features/collections/api/get-collection"
 
 const route = getRouteApi("/{-$locale}/(app)/collections/{-$collectionHandle}")
@@ -15,7 +14,7 @@ function CollectionHandle() {
   const [theCollection] = collection
 
   return (
-    <AppLayout>
+    <>
       <div>Hello "/-$locale/collections/-$collectionHandle"!</div>
       <div>Collection Handle: {handle} </div>
       <div>Locale: {locale}</div>
@@ -39,7 +38,7 @@ function CollectionHandle() {
           </div>
         ))}
       </div>
-    </AppLayout>
+    </>
   )
 }
 

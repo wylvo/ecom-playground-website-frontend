@@ -1,11 +1,5 @@
-import CheckoutLayout from "@/components/layouts/checkout-layout"
-
 function Shipping() {
-  return (
-    <CheckoutLayout>
-      <div>Hello "/-$locale/(app)/checkout/shipping"!</div>
-    </CheckoutLayout>
-  )
+  return <div>Hello "/-$locale/(app)/checkout/shipping"!</div>
 }
 
 export default Shipping

@@ -19,10 +19,12 @@ import { Route as Char123LocaleChar125authRegisterRouteImport } from "./routes/{
 import { Route as Char123LocaleChar125appAuthenticatedRouteRouteImport } from "./routes/{-$locale}/(app)/_authenticated.route"
 import { Route as Char123LocaleChar125appProductsIndexRouteImport } from "./routes/{-$locale}/(app)/products/index"
 import { Route as Char123LocaleChar125appCollectionsIndexRouteImport } from "./routes/{-$locale}/(app)/collections/index"
-import { Route as Char123LocaleChar125appCartIndexRouteImport } from "./routes/{-$locale}/(app)/cart/index"
 import { Route as Char123LocaleChar125appProductsChar123ProductHandleChar125RouteImport } from "./routes/{-$locale}/(app)/products/{-$productHandle}"
 import { Route as Char123LocaleChar125appNewsletterUnsubscribeRouteImport } from "./routes/{-$locale}/(app)/newsletter/unsubscribe"
 import { Route as Char123LocaleChar125appCollectionsChar123CollectionHandleChar125RouteImport } from "./routes/{-$locale}/(app)/collections/{-$collectionHandle}"
+import { Route as Char123LocaleChar125appAuthenticatedCheckoutRouteRouteImport } from "./routes/{-$locale}/(app)/_authenticated/checkout.route"
+import { Route as Char123LocaleChar125appAuthenticatedAccountRouteRouteImport } from "./routes/{-$locale}/(app)/_authenticated/account.route"
+import { Route as Char123LocaleChar125appAuthenticatedCartIndexRouteImport } from "./routes/{-$locale}/(app)/_authenticated/cart/index"
 import { Route as Char123LocaleChar125appAuthenticatedAccountIndexRouteImport } from "./routes/{-$locale}/(app)/_authenticated/account/index"
 import { Route as Char123LocaleChar125appAuthenticatedCheckoutSummaryRouteImport } from "./routes/{-$locale}/(app)/_authenticated/checkout/summary"
 import { Route as Char123LocaleChar125appAuthenticatedCheckoutShippingRouteImport } from "./routes/{-$locale}/(app)/_authenticated/checkout/shipping"
@@ -85,12 +87,6 @@ const Char123LocaleChar125appCollectionsIndexRoute =
     path: "/collections/",
     getParentRoute: () => Char123LocaleChar125appRoute,
   } as any)
-const Char123LocaleChar125appCartIndexRoute =
-  Char123LocaleChar125appCartIndexRouteImport.update({
-    id: "/cart/",
-    path: "/cart/",
-    getParentRoute: () => Char123LocaleChar125appRoute,
-  } as any)
 const Char123LocaleChar125appProductsChar123ProductHandleChar125Route =
   Char123LocaleChar125appProductsChar123ProductHandleChar125RouteImport.update({
     id: "/products/{-$productHandle}",
@@ -111,53 +107,75 @@ const Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route =
       getParentRoute: () => Char123LocaleChar125appRoute,
     } as any,
   )
+const Char123LocaleChar125appAuthenticatedCheckoutRouteRoute =
+  Char123LocaleChar125appAuthenticatedCheckoutRouteRouteImport.update({
+    id: "/checkout",
+    path: "/checkout",
+    getParentRoute: () => Char123LocaleChar125appAuthenticatedRouteRoute,
+  } as any)
+const Char123LocaleChar125appAuthenticatedAccountRouteRoute =
+  Char123LocaleChar125appAuthenticatedAccountRouteRouteImport.update({
+    id: "/account",
+    path: "/account",
+    getParentRoute: () => Char123LocaleChar125appAuthenticatedRouteRoute,
+  } as any)
+const Char123LocaleChar125appAuthenticatedCartIndexRoute =
+  Char123LocaleChar125appAuthenticatedCartIndexRouteImport.update({
+    id: "/cart/",
+    path: "/cart/",
+    getParentRoute: () => Char123LocaleChar125appAuthenticatedRouteRoute,
+  } as any)
 const Char123LocaleChar125appAuthenticatedAccountIndexRoute =
   Char123LocaleChar125appAuthenticatedAccountIndexRouteImport.update({
-    id: "/account/",
-    path: "/account/",
-    getParentRoute: () => Char123LocaleChar125appAuthenticatedRouteRoute,
+    id: "/",
+    path: "/",
+    getParentRoute: () => Char123LocaleChar125appAuthenticatedAccountRouteRoute,
   } as any)
 const Char123LocaleChar125appAuthenticatedCheckoutSummaryRoute =
   Char123LocaleChar125appAuthenticatedCheckoutSummaryRouteImport.update({
-    id: "/checkout/summary",
-    path: "/checkout/summary",
-    getParentRoute: () => Char123LocaleChar125appAuthenticatedRouteRoute,
+    id: "/summary",
+    path: "/summary",
+    getParentRoute: () =>
+      Char123LocaleChar125appAuthenticatedCheckoutRouteRoute,
   } as any)
 const Char123LocaleChar125appAuthenticatedCheckoutShippingRoute =
   Char123LocaleChar125appAuthenticatedCheckoutShippingRouteImport.update({
-    id: "/checkout/shipping",
-    path: "/checkout/shipping",
-    getParentRoute: () => Char123LocaleChar125appAuthenticatedRouteRoute,
+    id: "/shipping",
+    path: "/shipping",
+    getParentRoute: () =>
+      Char123LocaleChar125appAuthenticatedCheckoutRouteRoute,
   } as any)
 const Char123LocaleChar125appAuthenticatedCheckoutDetailsRoute =
   Char123LocaleChar125appAuthenticatedCheckoutDetailsRouteImport.update({
-    id: "/checkout/details",
-    path: "/checkout/details",
-    getParentRoute: () => Char123LocaleChar125appAuthenticatedRouteRoute,
+    id: "/details",
+    path: "/details",
+    getParentRoute: () =>
+      Char123LocaleChar125appAuthenticatedCheckoutRouteRoute,
   } as any)
 const Char123LocaleChar125appAuthenticatedCheckoutCustomerRoute =
   Char123LocaleChar125appAuthenticatedCheckoutCustomerRouteImport.update({
-    id: "/checkout/customer",
-    path: "/checkout/customer",
-    getParentRoute: () => Char123LocaleChar125appAuthenticatedRouteRoute,
+    id: "/customer",
+    path: "/customer",
+    getParentRoute: () =>
+      Char123LocaleChar125appAuthenticatedCheckoutRouteRoute,
   } as any)
 const Char123LocaleChar125appAuthenticatedAccountPreferencesRoute =
   Char123LocaleChar125appAuthenticatedAccountPreferencesRouteImport.update({
-    id: "/account/preferences",
-    path: "/account/preferences",
-    getParentRoute: () => Char123LocaleChar125appAuthenticatedRouteRoute,
+    id: "/preferences",
+    path: "/preferences",
+    getParentRoute: () => Char123LocaleChar125appAuthenticatedAccountRouteRoute,
   } as any)
 const Char123LocaleChar125appAuthenticatedAccountOrdersIndexRoute =
   Char123LocaleChar125appAuthenticatedAccountOrdersIndexRouteImport.update({
-    id: "/account/orders/",
-    path: "/account/orders/",
-    getParentRoute: () => Char123LocaleChar125appAuthenticatedRouteRoute,
+    id: "/orders/",
+    path: "/orders/",
+    getParentRoute: () => Char123LocaleChar125appAuthenticatedAccountRouteRoute,
   } as any)
 const Char123LocaleChar125appAuthenticatedAccountOrdersOrderIdRoute =
   Char123LocaleChar125appAuthenticatedAccountOrdersOrderIdRouteImport.update({
-    id: "/account/orders/$orderId",
-    path: "/account/orders/$orderId",
-    getParentRoute: () => Char123LocaleChar125appAuthenticatedRouteRoute,
+    id: "/orders/$orderId",
+    path: "/orders/$orderId",
+    getParentRoute: () => Char123LocaleChar125appAuthenticatedAccountRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -166,10 +184,11 @@ export interface FileRoutesByFullPath {
   "/{-$locale}/": typeof Char123LocaleChar125appAuthenticatedRouteRouteWithChildren
   "/{-$locale}/register": typeof Char123LocaleChar125authRegisterRoute
   "/{-$locale}/sign-in": typeof Char123LocaleChar125authSignInRoute
+  "/{-$locale}/account": typeof Char123LocaleChar125appAuthenticatedAccountRouteRouteWithChildren
+  "/{-$locale}/checkout": typeof Char123LocaleChar125appAuthenticatedCheckoutRouteRouteWithChildren
   "/{-$locale}/collections/{-$collectionHandle}": typeof Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route
   "/{-$locale}/newsletter/unsubscribe": typeof Char123LocaleChar125appNewsletterUnsubscribeRoute
   "/{-$locale}/products/{-$productHandle}": typeof Char123LocaleChar125appProductsChar123ProductHandleChar125Route
-  "/{-$locale}/cart": typeof Char123LocaleChar125appCartIndexRoute
   "/{-$locale}/collections": typeof Char123LocaleChar125appCollectionsIndexRoute
   "/{-$locale}/products": typeof Char123LocaleChar125appProductsIndexRoute
   "/{-$locale}/account/preferences": typeof Char123LocaleChar125appAuthenticatedAccountPreferencesRoute
@@ -177,7 +196,8 @@ export interface FileRoutesByFullPath {
   "/{-$locale}/checkout/details": typeof Char123LocaleChar125appAuthenticatedCheckoutDetailsRoute
   "/{-$locale}/checkout/shipping": typeof Char123LocaleChar125appAuthenticatedCheckoutShippingRoute
   "/{-$locale}/checkout/summary": typeof Char123LocaleChar125appAuthenticatedCheckoutSummaryRoute
-  "/{-$locale}/account": typeof Char123LocaleChar125appAuthenticatedAccountIndexRoute
+  "/{-$locale}/account/": typeof Char123LocaleChar125appAuthenticatedAccountIndexRoute
+  "/{-$locale}/cart": typeof Char123LocaleChar125appAuthenticatedCartIndexRoute
   "/{-$locale}/account/orders/$orderId": typeof Char123LocaleChar125appAuthenticatedAccountOrdersOrderIdRoute
   "/{-$locale}/account/orders": typeof Char123LocaleChar125appAuthenticatedAccountOrdersIndexRoute
 }
@@ -186,10 +206,10 @@ export interface FileRoutesByTo {
   "/{-$locale}": typeof Char123LocaleChar125appAuthenticatedRouteRouteWithChildren
   "/{-$locale}/register": typeof Char123LocaleChar125authRegisterRoute
   "/{-$locale}/sign-in": typeof Char123LocaleChar125authSignInRoute
+  "/{-$locale}/checkout": typeof Char123LocaleChar125appAuthenticatedCheckoutRouteRouteWithChildren
   "/{-$locale}/collections/{-$collectionHandle}": typeof Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route
   "/{-$locale}/newsletter/unsubscribe": typeof Char123LocaleChar125appNewsletterUnsubscribeRoute
   "/{-$locale}/products/{-$productHandle}": typeof Char123LocaleChar125appProductsChar123ProductHandleChar125Route
-  "/{-$locale}/cart": typeof Char123LocaleChar125appCartIndexRoute
   "/{-$locale}/collections": typeof Char123LocaleChar125appCollectionsIndexRoute
   "/{-$locale}/products": typeof Char123LocaleChar125appProductsIndexRoute
   "/{-$locale}/account/preferences": typeof Char123LocaleChar125appAuthenticatedAccountPreferencesRoute
@@ -198,6 +218,7 @@ export interface FileRoutesByTo {
   "/{-$locale}/checkout/shipping": typeof Char123LocaleChar125appAuthenticatedCheckoutShippingRoute
   "/{-$locale}/checkout/summary": typeof Char123LocaleChar125appAuthenticatedCheckoutSummaryRoute
   "/{-$locale}/account": typeof Char123LocaleChar125appAuthenticatedAccountIndexRoute
+  "/{-$locale}/cart": typeof Char123LocaleChar125appAuthenticatedCartIndexRoute
   "/{-$locale}/account/orders/$orderId": typeof Char123LocaleChar125appAuthenticatedAccountOrdersOrderIdRoute
   "/{-$locale}/account/orders": typeof Char123LocaleChar125appAuthenticatedAccountOrdersIndexRoute
 }
@@ -210,10 +231,11 @@ export interface FileRoutesById {
   "/{-$locale}/(app)/_authenticated": typeof Char123LocaleChar125appAuthenticatedRouteRouteWithChildren
   "/{-$locale}/(auth)/register": typeof Char123LocaleChar125authRegisterRoute
   "/{-$locale}/(auth)/sign-in": typeof Char123LocaleChar125authSignInRoute
+  "/{-$locale}/(app)/_authenticated/account": typeof Char123LocaleChar125appAuthenticatedAccountRouteRouteWithChildren
+  "/{-$locale}/(app)/_authenticated/checkout": typeof Char123LocaleChar125appAuthenticatedCheckoutRouteRouteWithChildren
   "/{-$locale}/(app)/collections/{-$collectionHandle}": typeof Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route
   "/{-$locale}/(app)/newsletter/unsubscribe": typeof Char123LocaleChar125appNewsletterUnsubscribeRoute
   "/{-$locale}/(app)/products/{-$productHandle}": typeof Char123LocaleChar125appProductsChar123ProductHandleChar125Route
-  "/{-$locale}/(app)/cart/": typeof Char123LocaleChar125appCartIndexRoute
   "/{-$locale}/(app)/collections/": typeof Char123LocaleChar125appCollectionsIndexRoute
   "/{-$locale}/(app)/products/": typeof Char123LocaleChar125appProductsIndexRoute
   "/{-$locale}/(app)/_authenticated/account/preferences": typeof Char123LocaleChar125appAuthenticatedAccountPreferencesRoute
@@ -222,6 +244,7 @@ export interface FileRoutesById {
   "/{-$locale}/(app)/_authenticated/checkout/shipping": typeof Char123LocaleChar125appAuthenticatedCheckoutShippingRoute
   "/{-$locale}/(app)/_authenticated/checkout/summary": typeof Char123LocaleChar125appAuthenticatedCheckoutSummaryRoute
   "/{-$locale}/(app)/_authenticated/account/": typeof Char123LocaleChar125appAuthenticatedAccountIndexRoute
+  "/{-$locale}/(app)/_authenticated/cart/": typeof Char123LocaleChar125appAuthenticatedCartIndexRoute
   "/{-$locale}/(app)/_authenticated/account/orders/$orderId": typeof Char123LocaleChar125appAuthenticatedAccountOrdersOrderIdRoute
   "/{-$locale}/(app)/_authenticated/account/orders/": typeof Char123LocaleChar125appAuthenticatedAccountOrdersIndexRoute
 }
@@ -233,10 +256,11 @@ export interface FileRouteTypes {
     | "/{-$locale}/"
     | "/{-$locale}/register"
     | "/{-$locale}/sign-in"
+    | "/{-$locale}/account"
+    | "/{-$locale}/checkout"
     | "/{-$locale}/collections/{-$collectionHandle}"
     | "/{-$locale}/newsletter/unsubscribe"
     | "/{-$locale}/products/{-$productHandle}"
-    | "/{-$locale}/cart"
     | "/{-$locale}/collections"
     | "/{-$locale}/products"
     | "/{-$locale}/account/preferences"
@@ -244,7 +268,8 @@ export interface FileRouteTypes {
     | "/{-$locale}/checkout/details"
     | "/{-$locale}/checkout/shipping"
     | "/{-$locale}/checkout/summary"
-    | "/{-$locale}/account"
+    | "/{-$locale}/account/"
+    | "/{-$locale}/cart"
     | "/{-$locale}/account/orders/$orderId"
     | "/{-$locale}/account/orders"
   fileRoutesByTo: FileRoutesByTo
@@ -253,10 +278,10 @@ export interface FileRouteTypes {
     | "/{-$locale}"
     | "/{-$locale}/register"
     | "/{-$locale}/sign-in"
+    | "/{-$locale}/checkout"
     | "/{-$locale}/collections/{-$collectionHandle}"
     | "/{-$locale}/newsletter/unsubscribe"
     | "/{-$locale}/products/{-$productHandle}"
-    | "/{-$locale}/cart"
     | "/{-$locale}/collections"
     | "/{-$locale}/products"
     | "/{-$locale}/account/preferences"
@@ -265,6 +290,7 @@ export interface FileRouteTypes {
     | "/{-$locale}/checkout/shipping"
     | "/{-$locale}/checkout/summary"
     | "/{-$locale}/account"
+    | "/{-$locale}/cart"
     | "/{-$locale}/account/orders/$orderId"
     | "/{-$locale}/account/orders"
   id:
@@ -276,10 +302,11 @@ export interface FileRouteTypes {
     | "/{-$locale}/(app)/_authenticated"
     | "/{-$locale}/(auth)/register"
     | "/{-$locale}/(auth)/sign-in"
+    | "/{-$locale}/(app)/_authenticated/account"
+    | "/{-$locale}/(app)/_authenticated/checkout"
     | "/{-$locale}/(app)/collections/{-$collectionHandle}"
     | "/{-$locale}/(app)/newsletter/unsubscribe"
     | "/{-$locale}/(app)/products/{-$productHandle}"
-    | "/{-$locale}/(app)/cart/"
     | "/{-$locale}/(app)/collections/"
     | "/{-$locale}/(app)/products/"
     | "/{-$locale}/(app)/_authenticated/account/preferences"
@@ -288,6 +315,7 @@ export interface FileRouteTypes {
     | "/{-$locale}/(app)/_authenticated/checkout/shipping"
     | "/{-$locale}/(app)/_authenticated/checkout/summary"
     | "/{-$locale}/(app)/_authenticated/account/"
+    | "/{-$locale}/(app)/_authenticated/cart/"
     | "/{-$locale}/(app)/_authenticated/account/orders/$orderId"
     | "/{-$locale}/(app)/_authenticated/account/orders/"
   fileRoutesById: FileRoutesById
@@ -362,13 +390,6 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof Char123LocaleChar125appCollectionsIndexRouteImport
       parentRoute: typeof Char123LocaleChar125appRoute
     }
-    "/{-$locale}/(app)/cart/": {
-      id: "/{-$locale}/(app)/cart/"
-      path: "/cart"
-      fullPath: "/{-$locale}/cart"
-      preLoaderRoute: typeof Char123LocaleChar125appCartIndexRouteImport
-      parentRoute: typeof Char123LocaleChar125appRoute
-    }
     "/{-$locale}/(app)/products/{-$productHandle}": {
       id: "/{-$locale}/(app)/products/{-$productHandle}"
       path: "/products/{-$productHandle}"
@@ -390,80 +411,119 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof Char123LocaleChar125appCollectionsChar123CollectionHandleChar125RouteImport
       parentRoute: typeof Char123LocaleChar125appRoute
     }
-    "/{-$locale}/(app)/_authenticated/account/": {
-      id: "/{-$locale}/(app)/_authenticated/account/"
+    "/{-$locale}/(app)/_authenticated/checkout": {
+      id: "/{-$locale}/(app)/_authenticated/checkout"
+      path: "/checkout"
+      fullPath: "/{-$locale}/checkout"
+      preLoaderRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutRouteRouteImport
+      parentRoute: typeof Char123LocaleChar125appAuthenticatedRouteRoute
+    }
+    "/{-$locale}/(app)/_authenticated/account": {
+      id: "/{-$locale}/(app)/_authenticated/account"
       path: "/account"
       fullPath: "/{-$locale}/account"
-      preLoaderRoute: typeof Char123LocaleChar125appAuthenticatedAccountIndexRouteImport
+      preLoaderRoute: typeof Char123LocaleChar125appAuthenticatedAccountRouteRouteImport
       parentRoute: typeof Char123LocaleChar125appAuthenticatedRouteRoute
+    }
+    "/{-$locale}/(app)/_authenticated/cart/": {
+      id: "/{-$locale}/(app)/_authenticated/cart/"
+      path: "/cart"
+      fullPath: "/{-$locale}/cart"
+      preLoaderRoute: typeof Char123LocaleChar125appAuthenticatedCartIndexRouteImport
+      parentRoute: typeof Char123LocaleChar125appAuthenticatedRouteRoute
+    }
+    "/{-$locale}/(app)/_authenticated/account/": {
+      id: "/{-$locale}/(app)/_authenticated/account/"
+      path: "/"
+      fullPath: "/{-$locale}/account/"
+      preLoaderRoute: typeof Char123LocaleChar125appAuthenticatedAccountIndexRouteImport
+      parentRoute: typeof Char123LocaleChar125appAuthenticatedAccountRouteRoute
     }
     "/{-$locale}/(app)/_authenticated/checkout/summary": {
       id: "/{-$locale}/(app)/_authenticated/checkout/summary"
-      path: "/checkout/summary"
+      path: "/summary"
       fullPath: "/{-$locale}/checkout/summary"
       preLoaderRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutSummaryRouteImport
-      parentRoute: typeof Char123LocaleChar125appAuthenticatedRouteRoute
+      parentRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutRouteRoute
     }
     "/{-$locale}/(app)/_authenticated/checkout/shipping": {
       id: "/{-$locale}/(app)/_authenticated/checkout/shipping"
-      path: "/checkout/shipping"
+      path: "/shipping"
       fullPath: "/{-$locale}/checkout/shipping"
       preLoaderRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutShippingRouteImport
-      parentRoute: typeof Char123LocaleChar125appAuthenticatedRouteRoute
+      parentRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutRouteRoute
     }
     "/{-$locale}/(app)/_authenticated/checkout/details": {
       id: "/{-$locale}/(app)/_authenticated/checkout/details"
-      path: "/checkout/details"
+      path: "/details"
       fullPath: "/{-$locale}/checkout/details"
       preLoaderRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutDetailsRouteImport
-      parentRoute: typeof Char123LocaleChar125appAuthenticatedRouteRoute
+      parentRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutRouteRoute
     }
     "/{-$locale}/(app)/_authenticated/checkout/customer": {
       id: "/{-$locale}/(app)/_authenticated/checkout/customer"
-      path: "/checkout/customer"
+      path: "/customer"
       fullPath: "/{-$locale}/checkout/customer"
       preLoaderRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutCustomerRouteImport
-      parentRoute: typeof Char123LocaleChar125appAuthenticatedRouteRoute
+      parentRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutRouteRoute
     }
     "/{-$locale}/(app)/_authenticated/account/preferences": {
       id: "/{-$locale}/(app)/_authenticated/account/preferences"
-      path: "/account/preferences"
+      path: "/preferences"
       fullPath: "/{-$locale}/account/preferences"
       preLoaderRoute: typeof Char123LocaleChar125appAuthenticatedAccountPreferencesRouteImport
-      parentRoute: typeof Char123LocaleChar125appAuthenticatedRouteRoute
+      parentRoute: typeof Char123LocaleChar125appAuthenticatedAccountRouteRoute
     }
     "/{-$locale}/(app)/_authenticated/account/orders/": {
       id: "/{-$locale}/(app)/_authenticated/account/orders/"
-      path: "/account/orders"
+      path: "/orders"
       fullPath: "/{-$locale}/account/orders"
       preLoaderRoute: typeof Char123LocaleChar125appAuthenticatedAccountOrdersIndexRouteImport
-      parentRoute: typeof Char123LocaleChar125appAuthenticatedRouteRoute
+      parentRoute: typeof Char123LocaleChar125appAuthenticatedAccountRouteRoute
     }
     "/{-$locale}/(app)/_authenticated/account/orders/$orderId": {
       id: "/{-$locale}/(app)/_authenticated/account/orders/$orderId"
-      path: "/account/orders/$orderId"
+      path: "/orders/$orderId"
       fullPath: "/{-$locale}/account/orders/$orderId"
       preLoaderRoute: typeof Char123LocaleChar125appAuthenticatedAccountOrdersOrderIdRouteImport
-      parentRoute: typeof Char123LocaleChar125appAuthenticatedRouteRoute
+      parentRoute: typeof Char123LocaleChar125appAuthenticatedAccountRouteRoute
     }
   }
 }
 
-interface Char123LocaleChar125appAuthenticatedRouteRouteChildren {
+interface Char123LocaleChar125appAuthenticatedAccountRouteRouteChildren {
   Char123LocaleChar125appAuthenticatedAccountPreferencesRoute: typeof Char123LocaleChar125appAuthenticatedAccountPreferencesRoute
-  Char123LocaleChar125appAuthenticatedCheckoutCustomerRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutCustomerRoute
-  Char123LocaleChar125appAuthenticatedCheckoutDetailsRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutDetailsRoute
-  Char123LocaleChar125appAuthenticatedCheckoutShippingRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutShippingRoute
-  Char123LocaleChar125appAuthenticatedCheckoutSummaryRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutSummaryRoute
   Char123LocaleChar125appAuthenticatedAccountIndexRoute: typeof Char123LocaleChar125appAuthenticatedAccountIndexRoute
   Char123LocaleChar125appAuthenticatedAccountOrdersOrderIdRoute: typeof Char123LocaleChar125appAuthenticatedAccountOrdersOrderIdRoute
   Char123LocaleChar125appAuthenticatedAccountOrdersIndexRoute: typeof Char123LocaleChar125appAuthenticatedAccountOrdersIndexRoute
 }
 
-const Char123LocaleChar125appAuthenticatedRouteRouteChildren: Char123LocaleChar125appAuthenticatedRouteRouteChildren =
+const Char123LocaleChar125appAuthenticatedAccountRouteRouteChildren: Char123LocaleChar125appAuthenticatedAccountRouteRouteChildren =
   {
     Char123LocaleChar125appAuthenticatedAccountPreferencesRoute:
       Char123LocaleChar125appAuthenticatedAccountPreferencesRoute,
+    Char123LocaleChar125appAuthenticatedAccountIndexRoute:
+      Char123LocaleChar125appAuthenticatedAccountIndexRoute,
+    Char123LocaleChar125appAuthenticatedAccountOrdersOrderIdRoute:
+      Char123LocaleChar125appAuthenticatedAccountOrdersOrderIdRoute,
+    Char123LocaleChar125appAuthenticatedAccountOrdersIndexRoute:
+      Char123LocaleChar125appAuthenticatedAccountOrdersIndexRoute,
+  }
+
+const Char123LocaleChar125appAuthenticatedAccountRouteRouteWithChildren =
+  Char123LocaleChar125appAuthenticatedAccountRouteRoute._addFileChildren(
+    Char123LocaleChar125appAuthenticatedAccountRouteRouteChildren,
+  )
+
+interface Char123LocaleChar125appAuthenticatedCheckoutRouteRouteChildren {
+  Char123LocaleChar125appAuthenticatedCheckoutCustomerRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutCustomerRoute
+  Char123LocaleChar125appAuthenticatedCheckoutDetailsRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutDetailsRoute
+  Char123LocaleChar125appAuthenticatedCheckoutShippingRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutShippingRoute
+  Char123LocaleChar125appAuthenticatedCheckoutSummaryRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutSummaryRoute
+}
+
+const Char123LocaleChar125appAuthenticatedCheckoutRouteRouteChildren: Char123LocaleChar125appAuthenticatedCheckoutRouteRouteChildren =
+  {
     Char123LocaleChar125appAuthenticatedCheckoutCustomerRoute:
       Char123LocaleChar125appAuthenticatedCheckoutCustomerRoute,
     Char123LocaleChar125appAuthenticatedCheckoutDetailsRoute:
@@ -472,12 +532,27 @@ const Char123LocaleChar125appAuthenticatedRouteRouteChildren: Char123LocaleChar1
       Char123LocaleChar125appAuthenticatedCheckoutShippingRoute,
     Char123LocaleChar125appAuthenticatedCheckoutSummaryRoute:
       Char123LocaleChar125appAuthenticatedCheckoutSummaryRoute,
-    Char123LocaleChar125appAuthenticatedAccountIndexRoute:
-      Char123LocaleChar125appAuthenticatedAccountIndexRoute,
-    Char123LocaleChar125appAuthenticatedAccountOrdersOrderIdRoute:
-      Char123LocaleChar125appAuthenticatedAccountOrdersOrderIdRoute,
-    Char123LocaleChar125appAuthenticatedAccountOrdersIndexRoute:
-      Char123LocaleChar125appAuthenticatedAccountOrdersIndexRoute,
+  }
+
+const Char123LocaleChar125appAuthenticatedCheckoutRouteRouteWithChildren =
+  Char123LocaleChar125appAuthenticatedCheckoutRouteRoute._addFileChildren(
+    Char123LocaleChar125appAuthenticatedCheckoutRouteRouteChildren,
+  )
+
+interface Char123LocaleChar125appAuthenticatedRouteRouteChildren {
+  Char123LocaleChar125appAuthenticatedAccountRouteRoute: typeof Char123LocaleChar125appAuthenticatedAccountRouteRouteWithChildren
+  Char123LocaleChar125appAuthenticatedCheckoutRouteRoute: typeof Char123LocaleChar125appAuthenticatedCheckoutRouteRouteWithChildren
+  Char123LocaleChar125appAuthenticatedCartIndexRoute: typeof Char123LocaleChar125appAuthenticatedCartIndexRoute
+}
+
+const Char123LocaleChar125appAuthenticatedRouteRouteChildren: Char123LocaleChar125appAuthenticatedRouteRouteChildren =
+  {
+    Char123LocaleChar125appAuthenticatedAccountRouteRoute:
+      Char123LocaleChar125appAuthenticatedAccountRouteRouteWithChildren,
+    Char123LocaleChar125appAuthenticatedCheckoutRouteRoute:
+      Char123LocaleChar125appAuthenticatedCheckoutRouteRouteWithChildren,
+    Char123LocaleChar125appAuthenticatedCartIndexRoute:
+      Char123LocaleChar125appAuthenticatedCartIndexRoute,
   }
 
 const Char123LocaleChar125appAuthenticatedRouteRouteWithChildren =
@@ -490,7 +565,6 @@ interface Char123LocaleChar125appRouteChildren {
   Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route: typeof Char123LocaleChar125appCollectionsChar123CollectionHandleChar125Route
   Char123LocaleChar125appNewsletterUnsubscribeRoute: typeof Char123LocaleChar125appNewsletterUnsubscribeRoute
   Char123LocaleChar125appProductsChar123ProductHandleChar125Route: typeof Char123LocaleChar125appProductsChar123ProductHandleChar125Route
-  Char123LocaleChar125appCartIndexRoute: typeof Char123LocaleChar125appCartIndexRoute
   Char123LocaleChar125appCollectionsIndexRoute: typeof Char123LocaleChar125appCollectionsIndexRoute
   Char123LocaleChar125appProductsIndexRoute: typeof Char123LocaleChar125appProductsIndexRoute
 }
@@ -505,8 +579,6 @@ const Char123LocaleChar125appRouteChildren: Char123LocaleChar125appRouteChildren
       Char123LocaleChar125appNewsletterUnsubscribeRoute,
     Char123LocaleChar125appProductsChar123ProductHandleChar125Route:
       Char123LocaleChar125appProductsChar123ProductHandleChar125Route,
-    Char123LocaleChar125appCartIndexRoute:
-      Char123LocaleChar125appCartIndexRoute,
     Char123LocaleChar125appCollectionsIndexRoute:
       Char123LocaleChar125appCollectionsIndexRoute,
     Char123LocaleChar125appProductsIndexRoute:

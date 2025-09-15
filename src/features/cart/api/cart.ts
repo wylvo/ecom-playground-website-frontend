@@ -71,7 +71,35 @@ export async function getCart(authUserId: string) {
         id: any
         quantity: any
         variant: {
-          [x: string]: any
+          id: any
+          name: any
+          price: any
+          discount_price: any
+          inventory_quantity: any
+          sku: any
+          barcode: any
+          product: {
+            name: any
+            handle: any
+          }
+
+          variant_images: {
+            sort_order: any
+            image: {
+              url: any
+              alt_text: any
+            }
+          }[]
+
+          variant_options: {
+            option_value: {
+              value: any
+              option: {
+                name: any
+                sort_order: any
+              }[]
+            }[]
+          }[]
         }
       }[]
     }>()
