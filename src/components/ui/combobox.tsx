@@ -1,94 +1,59 @@
-"use client"
-
-import * as React from "react"
-import { CheckIcon, ChevronsUpDownIcon } from "lucide-react"
-
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/shadcn/button"
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/shadcn/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/shadcn/popover"
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxTrigger,
+  type ComboboxData,
+} from "@/components/ui/shadcn-io/combobox"
+import { useState } from "react"
 
-type ComboboxData = {
-  label: string
+type ComboBoxProps = {
+  data: ComboboxData[]
+  type: string
   value: string
-}[]
-
-type ComboboxProps = {
-  data: ComboboxData
-  name: string
-  placeholder?: string
-  searchPlaceholder?: string
+  onValueChange?: (value: string) => void
+  className?: string
+  disabled?: boolean
 }
 
-export function Combobox({
+const ComboBox = ({
   data,
-  name,
-  placeholder,
-  searchPlaceholder,
-}: ComboboxProps) {
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  type,
+  value,
+  onValueChange,
+  className,
+  disabled,
+}: ComboBoxProps) => {
+  const [open, setOpen] = useState(false)
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-auto justify-between"
-        >
-          {value
-            ? data.find((data) => data.value === value)?.label
-            : placeholder
-              ? placeholder
-              : `Select ${name}...`}
-          <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput
-            placeholder={
-              searchPlaceholder ? searchPlaceholder : `Search ${name}...`
-            }
-          />
-          <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
-            <CommandGroup>
-              {data.map((data) => (
-                <CommandItem
-                  key={data.value}
-                  value={String(data.value)}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setOpen(false)
-                  }}
-                >
-                  <CheckIcon
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === data.value ? "opacity-100" : "opacity-0",
-                    )}
-                  />
-                  {data.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    <Combobox
+      data={data}
+      onOpenChange={setOpen}
+      onValueChange={onValueChange}
+      open={open}
+      type={type}
+      value={value}
+    >
+      <ComboboxTrigger disabled={disabled} className={className} />
+      <ComboboxContent>
+        <ComboboxInput />
+        <ComboboxEmpty />
+        <ComboboxList>
+          <ComboboxGroup>
+            {data.map((d) => (
+              <ComboboxItem key={d.value} value={d.value}>
+                {d.label}
+              </ComboboxItem>
+            ))}
+          </ComboboxGroup>
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
   )
 }
+export default ComboBox

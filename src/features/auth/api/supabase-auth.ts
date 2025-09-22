@@ -1,5 +1,7 @@
 import supabase from "@/services/supabase"
 
+// const redirectUrl = import.meta.env.VITE_REDIRECT_URL
+
 export interface AuthRequiredFields {
   email: string
   password: string
@@ -35,6 +37,14 @@ export async function signIn({
 export async function signInAnonymously(captchaToken: string) {
   const { error } = await supabase.auth.signInAnonymously({
     options: { captchaToken },
+  })
+  if (error) throw error
+}
+
+export async function signInWithGoogle() {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    // options: { redirectTo: redirectUrl },
   })
   if (error) throw error
 }

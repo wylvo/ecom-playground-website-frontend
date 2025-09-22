@@ -12,7 +12,10 @@ import {
   FormDescription,
   FormField,
   FormItem,
+  FormLabel,
 } from "@/components/ui/shadcn/form"
+import { cn } from "@/lib/utils"
+import { useCheckoutStore } from "../stores/checkout-store"
 
 const checkoutEmailSchema = checkoutSchema.pick({
   email: true,
@@ -22,6 +25,7 @@ type CheckoutEmailSchema = z.infer<typeof checkoutEmailSchema>
 
 function Customer() {
   const navigate = useNavigate({ from: "/{-$locale}/checkout/customer" })
+  const setData = useCheckoutStore((state) => state.setData)
   const form = useForm<CheckoutEmailSchema>({
     resolver: zodResolver(checkoutEmailSchema),
     defaultValues: {
@@ -46,10 +50,9 @@ function Customer() {
     })
 
   function handleSubmitGuest(data: CheckoutEmailSchema) {
-    console.log(data)
+    setData(data)
     navigate({
-      to: "/{-$locale}/register",
-      search: { redirect: "/{-$locale}/checkout/details" },
+      to: "/{-$locale}/checkout/details",
     })
   }
 
@@ -93,14 +96,22 @@ function Customer() {
                   control={form.control}
                   name="email"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="grid gap-3 relative">
                       <FormControl>
                         <Input
+                          className={cn(
+                            "h-12 focus:pt-5 focus:pb-1 peer focus:placeholder-transparent",
+                            field.value ? "pt-5 pb-1" : "",
+                          )}
                           autoComplete="email"
-                          placeholder="Email"
+                          type="email"
+                          placeholder="Email Address"
                           {...field}
                         />
                       </FormControl>
+                      <FormLabel className="absolute left-0 px-3 py-1 top-1 text-xs text-muted-foreground font-normal peer-placeholder-shown:text-transparent peer-placeholder-shown:top-2 transition-all duration-300 peer-focus:top-1 peer-focus:text-muted-foreground cursor-text data-[error=true]:peer-focus:text-destructive data-[error=true]:peer-placeholder-shown:text-transparent">
+                        Email Address
+                      </FormLabel>
                       {errors.email && (
                         <FormDescription className="text-(--destructive) text-left">
                           {errors.email.message}

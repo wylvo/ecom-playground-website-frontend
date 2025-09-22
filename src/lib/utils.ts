@@ -20,11 +20,19 @@ export function isValidLocale(locale: string | undefined): locale is Locale {
 
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-export function formatPrice(
-  cents: number,
-  locale: Locale = defaultLocale,
+type FormatPrice = {
+  cents: number
+  locale?: Locale
+  currency?: string
+  displayCurrencyCode?: boolean
+}
+
+export function formatPrice({
+  cents,
+  locale = defaultLocale,
   currency = "CAD",
-) {
+  displayCurrencyCode,
+}: FormatPrice) {
   const dollars = cents / 100
 
   const formatter = new Intl.NumberFormat(locale, {
@@ -32,6 +40,8 @@ export function formatPrice(
     currency: currency,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
+    currencyDisplay: "symbol",
+    ...(displayCurrencyCode && { currencyDisplay: "code" }),
   })
 
   return formatter.format(dollars)

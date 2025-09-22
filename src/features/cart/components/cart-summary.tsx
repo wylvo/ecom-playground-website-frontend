@@ -14,23 +14,23 @@ function CartSummary(cart: GetCartResponse) {
             0,
           ) / 100,
         ),
-        formatted: formatPrice(
-          cart.cart_items.reduce(
+        formatted: formatPrice({
+          cents: cart.cart_items.reduce(
             (accumulator, currentValue) =>
               accumulator + currentValue.variant.price * currentValue.quantity,
             0,
           ),
-        ),
+        }),
       }
     : {
         amount: 0,
-        formatted: formatPrice(0),
+        formatted: formatPrice({ cents: 0 }),
       }
   const progressValue = (subtotal.amount / freeShippingTreshold) * 100
   const hasFreeShipping = progressValue >= 100
-  const remainingAmount = formatPrice(
-    (freeShippingTreshold - subtotal.amount) * 100,
-  )
+  const remainingAmount = formatPrice({
+    cents: (freeShippingTreshold - subtotal.amount) * 100,
+  })
 
   return (
     <div className="flex flex-col gap-8">

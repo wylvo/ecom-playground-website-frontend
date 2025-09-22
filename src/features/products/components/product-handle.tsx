@@ -132,11 +132,11 @@ function ProductHandle() {
           <p>product name: {product.name}</p>
           <p>variant name: {productVariant.name}</p>
           {/* <p>description: {product.description}</p> */}
-          <p>price: {formatPrice(productVariant.price, locale)}</p>
+          <p>price: {formatPrice({ cents: productVariant.price, locale })}</p>
           {productVariant.discount_price && (
             <p>
               discount price:{" "}
-              {formatPrice(productVariant.discount_price, locale)}
+              {formatPrice({ cents: productVariant.discount_price, locale })}
             </p>
           )}
 

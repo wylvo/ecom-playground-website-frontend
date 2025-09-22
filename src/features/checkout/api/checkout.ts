@@ -1,47 +1,21 @@
 import parsePhoneNumber from "libphonenumber-js"
 import z from "zod"
 
+const maximumLength = 255
+const minimumLength = 1
+
+const requiredString = (minLength = minimumLength, maxLength = maximumLength) =>
+  z
+    .string()
+    .trim()
+    .min(minLength, { error: "Required" })
+    .max(maxLength, { error: "Too long" })
+
+const optionalString = (maxLength = maximumLength) =>
+  z.string().trim().max(maxLength, { error: "Too long" }).optional()
+
 export const checkoutSchema = z.object({
   email: z.email(),
-
-  shipping_first_name: z.string().max(255),
-  shipping_last_name: z.string().max(255),
-  shipping_company: z
-    .string()
-    .max(255)
-    .nullable()
-    .refine((value) => (!value ? null : value)),
-  shipping_address_line_1: z.string().max(255),
-  shipping_address_line_2: z
-    .string()
-    .max(255)
-    .nullable()
-    .refine((value) => (!value ? null : value)),
-  shipping_city: z.string().max(255),
-  shipping_region: z.string().max(255),
-  shipping_region_code: z.string().max(2).nullable(),
-  shipping_zip: z.string().max(6),
-  shipping_country: z.string().max(255),
-
-  billing_first_name: z.string().max(255),
-  billing_last_name: z.string().max(255),
-  billing_company: z
-    .string()
-    .max(255)
-    .nullable()
-    .refine((value) => (!value ? null : value)),
-  billing_address_line_1: z.string().max(255),
-  billing_address_line_2: z
-    .string()
-    .max(255)
-    .nullable()
-    .refine((value) => (!value ? null : value)),
-  billing_city: z.string().max(255),
-  billing_region: z.string().max(255),
-  billing_region_code: z.string().max(2).nullable(),
-  billing_zip: z.string().max(6),
-  billing_country: z.string().max(255),
-  billing_address_matches_shipping_address: z.boolean(),
 
   // https://github.com/colinhacks/zod/issues/3378#issuecomment-2067591844
   phone_number: z.string().transform((value, ctx) => {
@@ -57,10 +31,32 @@ export const checkoutSchema = z.object({
     }
     return phoneNumber.formatInternational()
   }),
+  accepts_marketing: z.boolean(),
 
-  shipping_method: z.string(),
+  shipping_full_name: requiredString(2),
+  shipping_company: optionalString(),
+  shipping_address_line_1: requiredString(),
+  shipping_address_line_2: optionalString(),
+  shipping_city: requiredString(),
+  shipping_region: requiredString(),
+  shipping_region_code: optionalString(2),
+  shipping_zip: requiredString(1, 6),
+  shipping_country: requiredString(),
 
-  promotion_code: z.string().nullable(),
+  billing_address_matches_shipping_address: z.boolean(),
+
+  billing_full_name: optionalString(),
+  billing_company: optionalString(),
+  billing_address_line_1: optionalString(),
+  billing_address_line_2: optionalString(),
+  billing_city: optionalString(),
+  billing_region: optionalString(),
+  billing_zip: optionalString(6),
+  billing_country: optionalString(),
+
+  shipping_options: z.enum(["delivery", "pick_up"]),
+
+  promotion_code: z.string().optional(),
 
   // promotion_id: z.bigint(),
   // promotion_type: z.string(),

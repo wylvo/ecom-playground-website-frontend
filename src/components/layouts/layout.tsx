@@ -1,4 +1,4 @@
-import type { Locale } from "@/types/locale"
+import { defaultLocale, type Locale } from "@/types/locale"
 import type React from "react"
 import AuthLayout from "./auth-layout"
 import CheckoutLayout from "./checkout-layout"
@@ -37,7 +37,8 @@ function DispatchLayoutWithLocale({ pathname, locale, children }: LayoutProps) {
 }
 
 function Layout({ pathname, locale, children }: LayoutProps) {
-  if (!locale) return <DispatchLayout pathname={pathname} children={children} />
+  if (!locale || locale === defaultLocale)
+    return <DispatchLayout pathname={pathname} children={children} />
   if (locale)
     return (
       <DispatchLayoutWithLocale

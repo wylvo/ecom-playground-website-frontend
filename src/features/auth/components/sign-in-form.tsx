@@ -43,7 +43,7 @@ const siteKey = import.meta.env.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY
 function SignInForm({ className, ...props }: React.ComponentProps<"div">) {
   const { locale } = route.useRouteContext()
   const { redirect } = route.useSearch()
-  const { isLoading, signIn } = useSupabaseAuth()
+  const { isLoading, signIn, signInWithGoogle } = useSupabaseAuth()
   const ref = useRef<TurnstileInstance | null>(null)
   const form = useForm<SignInFormFields>({
     resolver: zodResolver(signInSchema),
@@ -57,6 +57,19 @@ function SignInForm({ className, ...props }: React.ComponentProps<"div">) {
   const {
     formState: { errors },
   } = form
+
+  function handleGoogleAuth() {
+    signInWithGoogle(undefined, {
+      onError: (error) => {
+        console.error(error)
+        toast.error("Sign in failed", {
+          style: {
+            color: "var(--destructive)",
+          },
+        })
+      },
+    })
+  }
 
   async function handleSubmit(data: SignInFormFields) {
     const { email, password, captchaToken } = data
@@ -102,9 +115,7 @@ function SignInForm({ className, ...props }: React.ComponentProps<"div">) {
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
-          <CardDescription>
-            Sign in with your Apple or Google account. Locale: {locale}
-          </CardDescription>
+          <CardDescription>Sign in with your Google account.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -123,9 +134,11 @@ function SignInForm({ className, ...props }: React.ComponentProps<"div">) {
                   Sign in with Apple
                 </Button> */}
                   <Button
+                    type="button"
                     variant="outline"
                     className="w-full"
                     disabled={isLoading}
+                    onClick={handleGoogleAuth}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <path

@@ -17,6 +17,7 @@ export interface SupabaseAuthContext {
   signUp: UseMutateFunction<void, Error, AuthRequiredFields, unknown>
   signIn: UseMutateFunction<void, Error, AuthRequiredFields, unknown>
   signInAnonymously: UseMutateFunction<void, Error, string, unknown>
+  signInWithGoogle: UseMutateFunction<void, Error, void, unknown>
   signOut: UseMutateFunction<void, Error, void, unknown>
   isLoading: boolean
   error: Error | null
@@ -81,6 +82,14 @@ function SupabaseAuthProvider({ children }: SupabaseAuthProviderProps) {
   })
 
   const {
+    mutate: signInWithGoogle,
+    isPending: isSigningInWithGoogle,
+    error: signInWithGoogleError,
+  } = useMutation({
+    mutationFn: () => supabaseAuth.signInWithGoogle(),
+  })
+
+  const {
     mutate: signOut,
     isPending: isSigningOut,
     error: signOutError,
@@ -90,9 +99,17 @@ function SupabaseAuthProvider({ children }: SupabaseAuthProviderProps) {
 
   // Consolidate loading and error states
   const isLoading =
-    isSigningIn || isSigningAnonymously || isSigningOut || isSigningUp
+    isSigningIn ||
+    isSigningAnonymously ||
+    isSigningOut ||
+    isSigningUp ||
+    isSigningInWithGoogle
   const error =
-    signInError || anonymousSignInError || signOutError || signUpError
+    signInError ||
+    anonymousSignInError ||
+    signOutError ||
+    signUpError ||
+    signInWithGoogleError
 
   return (
     <SupabaseAuthContext.Provider
@@ -102,6 +119,7 @@ function SupabaseAuthProvider({ children }: SupabaseAuthProviderProps) {
         signIn,
         signInAnonymously,
         signOut,
+        signInWithGoogle,
         signUp,
         isLoading,
         error,
