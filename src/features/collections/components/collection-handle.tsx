@@ -1,6 +1,8 @@
 import { getRouteApi, Link } from "@tanstack/react-router"
 
 import { useCollection } from "@/features/collections/api/get-collection"
+import Section from "@/components/ui/section"
+import Wrapper from "@/components/ui/wrapper"
 
 const route = getRouteApi("/{-$locale}/(app)/collections/{-$collectionHandle}")
 
@@ -14,31 +16,33 @@ function CollectionHandle() {
   const [theCollection] = collection
 
   return (
-    <>
-      <div>Hello "/-$locale/collections/-$collectionHandle"!</div>
-      <div>Collection Handle: {handle} </div>
-      <div>Locale: {locale}</div>
+    <Section>
+      <Wrapper>
+        <div>Hello "/-$locale/collections/-$collectionHandle"!</div>
+        <div>Collection Handle: {handle} </div>
+        <div>Locale: {locale}</div>
 
-      <div className="mt-12">
-        {theCollection.products.map((product) => (
-          <div key={product.handle} className="mt-8">
-            <Link
-              className="underline underline-offset-4"
-              to="/{-$locale}/products/{-$productHandle}"
-              params={{ productHandle: product.handle }}
-            >
-              <img
-                className="w-32 h-32 object-cover"
-                src={product.product_images.url}
-                alt={product.product_images.alt_text}
-              />
-              <p>{product.name}</p>
-            </Link>
-            <p>{product.description}</p>
-          </div>
-        ))}
-      </div>
-    </>
+        <div className="mt-12">
+          {theCollection.products.map((product) => (
+            <div key={product.handle} className="mt-8">
+              <Link
+                className="underline underline-offset-4"
+                to="/{-$locale}/products/{-$productHandle}"
+                params={{ productHandle: product.handle }}
+              >
+                <img
+                  className="w-32 h-32 object-cover"
+                  src={product.product_images.url}
+                  alt={product.product_images.alt_text}
+                />
+                <p>{product.name}</p>
+              </Link>
+              <p>{product.description}</p>
+            </div>
+          ))}
+        </div>
+      </Wrapper>
+    </Section>
   )
 }
 

@@ -52,11 +52,19 @@ function CartItems() {
                 params={{ productHandle: variant.product.handle }}
                 search={{ variant: variant.id }}
               >
-                <img
-                  className="w-24 h-24 object-cover rounded-md"
-                  src={variant.variant_images[0].image.url}
-                  alt={variant.variant_images[0].image.alt_text}
-                />
+                {variant?.variant_images[0]?.image?.url ? (
+                  <img
+                    className="w-24 h-24 object-cover rounded-md"
+                    src={variant.variant_images[0].image.url}
+                    alt={variant.variant_images[0].image.alt_text}
+                  />
+                ) : (
+                  <img
+                    className="w-18 h-18 object-cover rounded-md"
+                    src="/public/vite.svg"
+                    alt=""
+                  />
+                )}
               </Link>
               <div className="flex flex-col flex-grow gap-1">
                 <div>

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/shadcn/button"
 import { Card } from "@/components/ui/shadcn/card"
 import { Input } from "@/components/ui/shadcn/input"
-import { useNavigate } from "@tanstack/react-router"
+import { getRouteApi, useNavigate } from "@tanstack/react-router"
 import { useForm } from "react-hook-form"
 import { checkoutSchema } from "../api/checkout"
 import type z from "zod"
@@ -16,20 +16,29 @@ import {
 } from "@/components/ui/shadcn/form"
 import { cn } from "@/lib/utils"
 import { useCheckoutStore } from "../stores/checkout-store"
+import Section from "@/components/ui/section"
+import Wrapper from "@/components/ui/wrapper"
+
+const route = getRouteApi("/{-$locale}/(app)/_authenticated/checkout/customer")
 
 const checkoutEmailSchema = checkoutSchema.pick({
   email: true,
+  locale: true,
 })
 
 type CheckoutEmailSchema = z.infer<typeof checkoutEmailSchema>
 
 function Customer() {
+  const { locale } = route.useRouteContext()
+  console.log(locale)
+
   const navigate = useNavigate({ from: "/{-$locale}/checkout/customer" })
   const setData = useCheckoutStore((state) => state.setData)
   const form = useForm<CheckoutEmailSchema>({
     resolver: zodResolver(checkoutEmailSchema),
     defaultValues: {
       email: "",
+      locale,
     },
   })
 
@@ -57,9 +66,9 @@ function Customer() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="flex items-center justify-center gap-24 p-8">
-        <Card className="flex flex-col text-center gap-8 border-none shadow-none">
+    <Section className="min-h-screen grid">
+      <Wrapper className="md:flex md:items-center md:justify-center gap-24">
+        <Card className="grid text-center gap-8 border-none shadow-none">
           <div>
             <h1 className="text-2xl">Customer Checkout</h1>
             <p className="text-muted-foreground text-sm">
@@ -78,8 +87,8 @@ function Customer() {
             </Button>
           </div>
         </Card>
-        <div className="h-40 border-l border-gray-200"></div>
-        <Card className="flex flex-col text-center gap-8 border-none shadow-none">
+        <div className="border-t md:h-40 md:border-l border-gray-200"></div>
+        <Card className="grid text-center gap-8 border-none shadow-none">
           <div>
             <h1 className="text-2xl">Guest Checkout</h1>
             <p className="text-muted-foreground text-sm">
@@ -125,8 +134,8 @@ function Customer() {
             </Form>
           </div>
         </Card>
-      </div>
-    </div>
+      </Wrapper>
+    </Section>
   )
 }
 

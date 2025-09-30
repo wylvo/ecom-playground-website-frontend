@@ -23,16 +23,16 @@ export const Route = createFileRoute(
     const shipping_address_line_1 =
       checkoutStore.getState().shipping_address_line_1
     const shipping_city = checkoutStore.getState().shipping_city
-    const shipping_region = checkoutStore.getState().shipping_region
+    const shipping_region_name = checkoutStore.getState().shipping_region_name
     const shipping_zip = checkoutStore.getState().shipping_zip
-    const shipping_country = checkoutStore.getState().shipping_country
+    const shipping_country_name = checkoutStore.getState().shipping_country_name
     const billing_full_name = checkoutStore.getState().billing_full_name
     const billing_address_line_1 =
       checkoutStore.getState().billing_address_line_1
     const billing_city = checkoutStore.getState().billing_city
-    const billing_region = checkoutStore.getState().billing_region
+    const billing_region_name = checkoutStore.getState().billing_region_name
     const billing_zip = checkoutStore.getState().billing_zip
-    const billing_country = checkoutStore.getState().billing_country
+    const billing_country_name = checkoutStore.getState().billing_country_name
 
     if (
       !email ||
@@ -40,15 +40,15 @@ export const Route = createFileRoute(
       !shipping_full_name ||
       !shipping_address_line_1 ||
       !shipping_city ||
-      !shipping_region ||
+      !shipping_region_name ||
       !shipping_zip ||
-      !shipping_country ||
+      !shipping_country_name ||
       !billing_full_name ||
       !billing_address_line_1 ||
       !billing_city ||
-      !billing_region ||
+      !billing_region_name ||
       !billing_zip ||
-      !billing_country
+      !billing_country_name
     )
       throw redirect({
         to: "/{-$locale}/checkout/details",

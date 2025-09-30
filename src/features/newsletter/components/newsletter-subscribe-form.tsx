@@ -89,7 +89,7 @@ function NewsletterSubscribeForm({
         )
       },
       onSettled: () => {
-        // Reset the Turnstile component by changing the key to generate a new challenge
+        // Reset the Turnstile component to generate a new challenge
         ref.current?.reset()
         form.reset()
         form.clearErrors()

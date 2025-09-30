@@ -7,10 +7,13 @@ import { Card, CardContent, CardTitle } from "@/components/ui/shadcn/card"
 import { useTaxRates } from "../api/get-tax-rates"
 import { useCheckoutStore } from "../stores/checkout-store"
 
-function CheckoutOverview() {
-  const defaultShippingCountryName = "Canada"
-  const defaultShippingRegionCode = "QC"
+const defaultShippingCountryName = import.meta.env
+  .VITE_DEFAULT_SHIPPING_COUNTRY_NAME
+const defaultShippingRegionCode = import.meta.env
+  .VITE_DEFAULT_SHIPPING_REGION_CODE
+const freeShippingTreshold = import.meta.env.VITE_FREE_SHIPPING_THRESHOLD
 
+function CheckoutOverview() {
   const { cart } = useCart()
   const { taxRates } = useTaxRates(defaultShippingCountryName)
 
@@ -18,7 +21,7 @@ function CheckoutOverview() {
     useCheckoutStore((state) => state.shipping_region_code) ??
     defaultShippingRegionCode
   const shippingCountryName =
-    useCheckoutStore((state) => state.shipping_country) ??
+    useCheckoutStore((state) => state.shipping_country_name) ??
     defaultShippingCountryName
 
   const regionTaxRate = taxRates?.find(
@@ -31,7 +34,6 @@ function CheckoutOverview() {
     (taxRate) => taxRate.country?.name === shippingCountryName,
   )?.rate
 
-  const freeShippingTreshold = 15000
   const subtotal = {
     amount: Number(
       cart!.cart_items.reduce(
@@ -81,11 +83,19 @@ function CheckoutOverview() {
                 return (
                   <div key={cart_item.id} className="flex gap-4">
                     <div className="relative">
-                      <img
-                        className="w-18 h-18 object-cover rounded-md"
-                        src={variant.variant_images[0].image.url}
-                        alt={variant.variant_images[0].image.alt_text}
-                      />
+                      {variant?.variant_images[0]?.image?.url ? (
+                        <img
+                          className="w-18 h-18 object-cover rounded-md"
+                          src={variant.variant_images[0].image.url}
+                          alt={variant.variant_images[0].image.alt_text}
+                        />
+                      ) : (
+                        <img
+                          className="w-18 h-18 object-cover rounded-md"
+                          src="/public/vite.svg"
+                          alt=""
+                        />
+                      )}
                       <div className="w-6 h-6 flex items-center justify-center p-2 text-background bg-foreground text-xs rounded-md absolute top-[-10%] right-[-10%]">
                         {quantity}
                       </div>

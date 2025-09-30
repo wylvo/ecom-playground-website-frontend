@@ -116,7 +116,7 @@ export type GetProductVariantsResponse = Awaited<
 export type GetProductVariantsOptions = { handle?: string; variant?: number }
 
 export const productHandleVariantParamsSchema = z.object({
-  variant: z.number().optional().catch(undefined),
+  variant: z.uuidv4().optional().catch(undefined),
 })
 
 export function useProductVariants(

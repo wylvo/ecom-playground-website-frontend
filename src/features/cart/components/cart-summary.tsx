@@ -3,8 +3,9 @@ import type { GetCartResponse } from "../api/cart"
 import { Progress } from "@/components/ui/shadcn/progress"
 import { Truck } from "lucide-react"
 
+const freeShippingTreshold = import.meta.env.VITE_FREE_SHIPPING_THRESHOLD
+
 function CartSummary(cart: GetCartResponse) {
-  const freeShippingTreshold = 150
   const subtotal = cart
     ? {
         amount: Number(
@@ -12,7 +13,7 @@ function CartSummary(cart: GetCartResponse) {
             (accumulator, currentValue) =>
               accumulator + currentValue.variant.price * currentValue.quantity,
             0,
-          ) / 100,
+          ),
         ),
         formatted: formatPrice({
           cents: cart.cart_items.reduce(
@@ -29,7 +30,7 @@ function CartSummary(cart: GetCartResponse) {
   const progressValue = (subtotal.amount / freeShippingTreshold) * 100
   const hasFreeShipping = progressValue >= 100
   const remainingAmount = formatPrice({
-    cents: (freeShippingTreshold - subtotal.amount) * 100,
+    cents: freeShippingTreshold - subtotal.amount,
   })
 
   return (

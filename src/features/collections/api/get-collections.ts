@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query"
 import { z } from "zod"
 
-export const getCollections = async (params?: GetCollectionsOptions) => {
+export const getCollections = async (/*params?: GetCollectionsOptions*/) => {
   const { data, error } = await supabase
     .from("product_collections")
     .select(
@@ -38,7 +38,7 @@ export function createCollectionsQueryOptions<
   return queryOptions({
     ...options,
     queryKey: ["collections", params],
-    queryFn: () => getCollections(params),
+    queryFn: () => getCollections(/*params*/),
   })
 }
 

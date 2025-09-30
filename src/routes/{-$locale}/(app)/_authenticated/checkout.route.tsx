@@ -4,6 +4,9 @@ import { createShippingMethodsQueryOptions } from "@/features/checkout/api/get-s
 import { createTaxRatesQueryOptions } from "@/features/checkout/api/get-tax-rates"
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
 
+const defaultShippingCountryName = import.meta.env
+  .VITE_DEFAULT_SHIPPING_COUNTRY_NAME
+
 export const Route = createFileRoute(
   "/{-$locale}/(app)/_authenticated/checkout",
 )({
@@ -63,7 +66,7 @@ export const Route = createFileRoute(
       queryClient.ensureQueryData(createCountriesAndRegionsQueryOptions()),
       queryClient.ensureQueryData(createShippingMethodsQueryOptions()),
       queryClient.ensureQueryData(
-        createTaxRatesQueryOptions({ countryName: "Canada" }),
+        createTaxRatesQueryOptions({ countryName: defaultShippingCountryName }),
       ),
     ])
   },

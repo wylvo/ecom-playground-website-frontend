@@ -21,6 +21,7 @@ import { useSupabaseAuth } from "@/features/auth/contexts/supabase-auth-context"
 import { useCountriesAndRegions } from "../api/get-countries-and-regions"
 import { cn } from "@/lib/utils"
 import { useCheckoutStore } from "../stores/checkout-store"
+import { useEffect } from "react"
 
 const checkoutShippingAndBillingSchema = checkoutSchema
   .pick({
@@ -33,10 +34,11 @@ const checkoutShippingAndBillingSchema = checkoutSchema
     shipping_address_line_1: true,
     shipping_address_line_2: true,
     shipping_city: true,
-    shipping_region: true,
+    shipping_region_name: true,
     shipping_region_code: true,
     shipping_zip: true,
-    shipping_country: true,
+    shipping_country_name: true,
+    shipping_country_code: true,
 
     billing_address_matches_shipping_address: true,
 
@@ -45,9 +47,11 @@ const checkoutShippingAndBillingSchema = checkoutSchema
     billing_address_line_1: true,
     billing_address_line_2: true,
     billing_city: true,
-    billing_region: true,
+    billing_region_name: true,
+    billing_region_code: true,
     billing_zip: true,
-    billing_country: true,
+    billing_country_name: true,
+    billing_country_code: true,
   })
   .superRefine((data, ctx) => {
     if (!data.billing_address_matches_shipping_address) {
@@ -56,9 +60,11 @@ const checkoutShippingAndBillingSchema = checkoutSchema
           "billing_full_name",
           "billing_address_line_1",
           "billing_city",
-          "billing_region",
+          "billing_region_name",
+          "billing_region_code",
           "billing_zip",
-          "billing_country",
+          "billing_country_name",
+          "billing_country_code",
         ]
 
       requiredFieldNames.forEach((fieldName) => {
@@ -97,12 +103,19 @@ function DetailsForm() {
     (state) => state.shipping_address_line_2,
   )
   const shipping_city = useCheckoutStore((state) => state.shipping_city)
-  const shipping_region = useCheckoutStore((state) => state.shipping_region)
+  const shipping_region_name = useCheckoutStore(
+    (state) => state.shipping_region_name,
+  )
   const shipping_region_code = useCheckoutStore(
     (state) => state.shipping_region_code,
   )
   const shipping_zip = useCheckoutStore((state) => state.shipping_zip)
-  const shipping_country = useCheckoutStore((state) => state.shipping_country)
+  const shipping_country_name = useCheckoutStore(
+    (state) => state.shipping_country_name,
+  )
+  const shipping_country_code = useCheckoutStore(
+    (state) => state.shipping_country_code,
+  )
 
   const copyShippingAddress = useCheckoutStore(
     (state) => state.billing_address_matches_shipping_address,
@@ -116,9 +129,19 @@ function DetailsForm() {
     (state) => state.billing_address_line_2,
   )
   const billing_city = useCheckoutStore((state) => state.billing_city)
-  const billing_region = useCheckoutStore((state) => state.billing_region)
+  const billing_region_name = useCheckoutStore(
+    (state) => state.billing_region_name,
+  )
+  const billing_region_code = useCheckoutStore(
+    (state) => state.billing_region_code,
+  )
   const billing_zip = useCheckoutStore((state) => state.billing_zip)
-  const billing_country = useCheckoutStore((state) => state.billing_country)
+  const billing_country_name = useCheckoutStore(
+    (state) => state.billing_country_name,
+  )
+  const billing_country_code = useCheckoutStore(
+    (state) => state.billing_country_code,
+  )
 
   const form = useForm<CheckoutShippingAndBillingSchema>({
     resolver: zodResolver(checkoutShippingAndBillingSchema),
@@ -132,10 +155,11 @@ function DetailsForm() {
       shipping_address_line_1: shipping_address_line_1 || "",
       shipping_address_line_2: shipping_address_line_2 || "",
       shipping_city: shipping_city || "",
-      shipping_region: shipping_region || "Quebec",
+      shipping_region_name: shipping_region_name || "Quebec",
       shipping_region_code: shipping_region_code || "QC",
       shipping_zip: shipping_zip || "",
-      shipping_country: shipping_country || "Canada",
+      shipping_country_name: shipping_country_name || "Canada",
+      shipping_country_code: shipping_country_code || "CA",
 
       billing_address_matches_shipping_address: copyShippingAddress ?? true,
 
@@ -146,9 +170,15 @@ function DetailsForm() {
       billing_address_line_2:
         (!copyShippingAddress && billing_address_line_2) || "",
       billing_city: (!copyShippingAddress && billing_city) || "",
-      billing_region: (!copyShippingAddress && billing_region) || "",
+      billing_region_name:
+        (!copyShippingAddress && billing_region_name) || "Quebec",
+      billing_region_code:
+        (!copyShippingAddress && billing_region_code) || "QC",
       billing_zip: (!copyShippingAddress && billing_zip) || "",
-      billing_country: (!copyShippingAddress && billing_country) || "",
+      billing_country_name:
+        (!copyShippingAddress && billing_country_name) || "Canada",
+      billing_country_code:
+        (!copyShippingAddress && billing_country_code) || "CA",
     },
   })
 
@@ -161,6 +191,10 @@ function DetailsForm() {
     formState: { errors },
   } = form
 
+  useEffect(() => {
+    console.log(errors)
+  }, [errors])
+
   function copyShippingToBilling() {
     const {
       shipping_full_name,
@@ -168,9 +202,11 @@ function DetailsForm() {
       shipping_address_line_1,
       shipping_address_line_2,
       shipping_city,
-      shipping_country,
-      shipping_region,
+      shipping_region_name,
+      shipping_region_code,
       shipping_zip,
+      shipping_country_name,
+      shipping_country_code,
     } = form.getValues()
 
     form.setValue("billing_full_name", shipping_full_name)
@@ -178,9 +214,11 @@ function DetailsForm() {
     form.setValue("billing_address_line_1", shipping_address_line_1)
     form.setValue("billing_address_line_2", shipping_address_line_2)
     form.setValue("billing_city", shipping_city)
-    form.setValue("billing_country", shipping_country)
-    form.setValue("billing_region", shipping_region)
+    form.setValue("billing_region_name", shipping_region_name)
+    form.setValue("billing_region_code", shipping_region_code)
     form.setValue("billing_zip", shipping_zip)
+    form.setValue("billing_country_name", shipping_country_name)
+    form.setValue("billing_country_code", shipping_country_code)
   }
 
   function clearBillingFields() {
@@ -190,9 +228,11 @@ function DetailsForm() {
       "billing_address_line_1",
       "billing_address_line_2",
       "billing_city",
-      "billing_country",
-      "billing_region",
+      "billing_region_name",
+      "billing_region_code",
       "billing_zip",
+      "billing_country_name",
+      "billing_country_code",
     ]
     fields.forEach((field) => form.resetField(field))
   }
@@ -204,8 +244,8 @@ function DetailsForm() {
       data.billing_address_line_1 = data.shipping_address_line_1
       data.billing_address_line_2 = data.shipping_address_line_2
       data.billing_city = data.shipping_city
-      data.billing_country = data.shipping_country
-      data.billing_region = data.shipping_region
+      data.billing_country_name = data.shipping_country_name
+      data.billing_region_name = data.shipping_region_name
       data.billing_zip = data.shipping_zip
     }
 
@@ -266,7 +306,8 @@ function DetailsForm() {
                             "h-12 focus:pt-5 focus:pb-1 peer focus:placeholder-transparent",
                             field.value ? "pt-5 pb-1" : "",
                           )}
-                          autoComplete="tel"
+                          type="tel"
+                          autoComplete="shipping tel"
                           placeholder="Phone Number"
                           {...field}
                         />
@@ -454,7 +495,7 @@ function DetailsForm() {
 
                   <FormField
                     control={form.control}
-                    name="shipping_region"
+                    name="shipping_region_name"
                     render={({ field }) => (
                       <FormItem className="flex flex-col gap-3 relative">
                         <FormControl>
@@ -465,7 +506,7 @@ function DetailsForm() {
                                 ?.find(
                                   (country) =>
                                     country.name ===
-                                    form.getValues("shipping_country"),
+                                    form.getValues("shipping_country_name"),
                                 )
                                 ?.regions.map((region) => ({
                                   label: region.name,
@@ -489,7 +530,7 @@ function DetailsForm() {
                                 }),
                               )
 
-                              setData({ shipping_region: value })
+                              setData({ shipping_region_name: value })
                               return field.onChange(value)
                             }}
                           />
@@ -497,9 +538,9 @@ function DetailsForm() {
                         <div className="absolute left-0 px-3 py-1 top-1 text-xs text-muted-foreground font-normal peer-placeholder-shown:text-transparent peer-placeholder-shown:top-2 transition-all peer-focus:top-1 peer-focus:text-muted-foreground data-[disabled=true]:opacity-50 data-[disabled=true]:pointer-events-none">
                           Province
                         </div>
-                        {errors.shipping_region && (
+                        {errors.shipping_region_name && (
                           <FormDescription className="text-(--destructive) text-left">
-                            {errors.shipping_region.message}
+                            {errors.shipping_region_name.message}
                           </FormDescription>
                         )}
                       </FormItem>
@@ -566,7 +607,7 @@ function DetailsForm() {
 
                 <FormField
                   control={form.control}
-                  name="shipping_country"
+                  name="shipping_country_name"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-3 relative">
                       <FormControl>
@@ -583,13 +624,13 @@ function DetailsForm() {
                           value={field.value}
                           onValueChange={(value) => {
                             setData({
-                              shipping_country: value,
-                              shipping_region: "",
+                              shipping_country_name: value,
+                              shipping_region_name: "",
                               shipping_region_code: "",
                             })
 
-                            form.setValue("shipping_country", value)
-                            form.setValue("shipping_region", "")
+                            form.setValue("shipping_country_name", value)
+                            form.setValue("shipping_region_name", "")
                             form.setValue("shipping_region_code", "")
 
                             return field.onChange(value)
@@ -602,9 +643,9 @@ function DetailsForm() {
                       >
                         Country
                       </div>
-                      {errors.shipping_country && (
+                      {errors.shipping_country_name && (
                         <FormDescription className="text-(--destructive) text-left">
-                          {errors.shipping_country.message}
+                          {errors.shipping_country_name.message}
                         </FormDescription>
                       )}
                     </FormItem>
@@ -790,27 +831,52 @@ function DetailsForm() {
 
                     <FormField
                       control={form.control}
-                      name="billing_region"
+                      name="billing_region_name"
                       render={({ field }) => (
-                        <FormItem className="grid gap-3 relative">
+                        <FormItem className="flex flex-col gap-3 relative">
                           <FormControl>
-                            <Input
-                              className={cn(
-                                "h-12 focus:pt-5 focus:pb-1 peer focus:placeholder-transparent",
-                                field.value ? "pt-5 pb-1" : "",
-                              )}
-                              disabled={billingMatchesShipping}
-                              autoComplete="billing address-level1"
-                              placeholder="Province"
-                              {...field}
+                            <Combobox
+                              className="h-12 pt-5 pb-1 peer"
+                              data={
+                                countriesAndRegions
+                                  ?.find(
+                                    (country) =>
+                                      country.name ===
+                                      form.getValues("billing_country_name"),
+                                  )
+                                  ?.regions.map((region) => ({
+                                    label: region.name,
+                                    value: region.name,
+                                  })) ?? []
+                              }
+                              type="province/state"
+                              value={field.value}
+                              onValueChange={(value) => {
+                                countriesAndRegions?.forEach((country) =>
+                                  country.regions.find((region) => {
+                                    if (region.name === value) {
+                                      form.setValue(
+                                        "billing_region_code",
+                                        region.code,
+                                      )
+                                      setData({
+                                        billing_region_code: region.code,
+                                      })
+                                    }
+                                  }),
+                                )
+
+                                setData({ billing_region_name: value })
+                                return field.onChange(value)
+                              }}
                             />
                           </FormControl>
-                          <FormLabel className="absolute left-0 px-3 py-1 top-1 text-xs text-muted-foreground font-normal peer-placeholder-shown:text-transparent peer-placeholder-shown:top-2 transition-all peer-focus:top-1 peer-focus:text-muted-foreground cursor-text data-[error=true]:peer-focus:text-destructive data-[error=true]:peer-placeholder-shown:text-transparent">
+                          <div className="absolute left-0 px-3 py-1 top-1 text-xs text-muted-foreground font-normal peer-placeholder-shown:text-transparent peer-placeholder-shown:top-2 transition-all peer-focus:top-1 peer-focus:text-muted-foreground data-[disabled=true]:opacity-50 data-[disabled=true]:pointer-events-none">
                             Province
-                          </FormLabel>
-                          {errors.billing_region && (
+                          </div>
+                          {errors.billing_region_name && (
                             <FormDescription className="text-(--destructive) text-left">
-                              {errors.billing_region.message}
+                              {errors.billing_region_name.message}
                             </FormDescription>
                           )}
                         </FormItem>
@@ -850,27 +916,45 @@ function DetailsForm() {
 
                   <FormField
                     control={form.control}
-                    name="billing_country"
+                    name="billing_country_name"
                     render={({ field }) => (
-                      <FormItem className="grid gap-3 relative">
+                      <FormItem className="flex flex-col gap-3 relative">
                         <FormControl>
-                          <Input
-                            className={cn(
-                              "h-12 focus:pt-5 focus:pb-1 peer focus:placeholder-transparent",
-                              field.value ? "pt-5 pb-1" : "",
-                            )}
-                            disabled={billingMatchesShipping}
-                            autoComplete="billing country"
-                            placeholder="Country"
-                            {...field}
+                          <Combobox
+                            disabled
+                            className="h-12 pt-5 pb-1 peer"
+                            data={
+                              countriesAndRegions?.map((country) => ({
+                                label: country.name,
+                                value: country.name,
+                              })) ?? []
+                            }
+                            type="country"
+                            value={field.value}
+                            onValueChange={(value) => {
+                              setData({
+                                billing_country_name: value,
+                                billing_region_name: "",
+                                billing_region_code: "",
+                              })
+
+                              form.setValue("billing_country_name", value)
+                              form.setValue("billing_region_name", "")
+                              form.setValue("billing_region_code", "")
+
+                              return field.onChange(value)
+                            }}
                           />
                         </FormControl>
-                        <FormLabel className="absolute left-0 px-3 py-1 top-1 text-xs text-muted-foreground font-normal peer-placeholder-shown:text-transparent peer-placeholder-shown:top-2 transition-all peer-focus:top-1 peer-focus:text-muted-foreground cursor-text data-[error=true]:peer-focus:text-destructive data-[error=true]:peer-placeholder-shown:text-transparent">
+                        <div
+                          data-disabled="true"
+                          className="absolute left-0 px-3 py-1 top-1 text-xs text-muted-foreground font-normal peer-placeholder-shown:text-transparent peer-placeholder-shown:top-2 transition-all peer-focus:top-1 peer-focus:text-muted-foreground data-[disabled=true]:opacity-50 data-[disabled=true]:pointer-events-none"
+                        >
                           Country
-                        </FormLabel>
-                        {errors.billing_country && (
+                        </div>
+                        {errors.billing_country_name && (
                           <FormDescription className="text-(--destructive) text-left">
-                            {errors.billing_country.message}
+                            {errors.billing_country_name.message}
                           </FormDescription>
                         )}
                       </FormItem>

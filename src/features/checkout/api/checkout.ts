@@ -1,6 +1,9 @@
+import { useMutation } from "@tanstack/react-query"
+import axios from "axios"
 import parsePhoneNumber from "libphonenumber-js"
 import z from "zod"
 
+const api = import.meta.env.VITE_API_ENDPOINT
 const maximumLength = 255
 const minimumLength = 1
 
@@ -29,7 +32,7 @@ export const checkoutSchema = z.object({
       })
       return z.NEVER
     }
-    return phoneNumber.formatInternational()
+    return phoneNumber.format("E.164")
   }),
   accepts_marketing: z.boolean(),
 
@@ -38,10 +41,11 @@ export const checkoutSchema = z.object({
   shipping_address_line_1: requiredString(),
   shipping_address_line_2: optionalString(),
   shipping_city: requiredString(),
-  shipping_region: requiredString(),
-  shipping_region_code: optionalString(2),
+  shipping_region_name: requiredString(),
+  shipping_region_code: requiredString(2, 2),
   shipping_zip: requiredString(1, 6),
-  shipping_country: requiredString(),
+  shipping_country_name: requiredString(),
+  shipping_country_code: requiredString(2, 2),
 
   billing_address_matches_shipping_address: z.boolean(),
 
@@ -50,24 +54,54 @@ export const checkoutSchema = z.object({
   billing_address_line_1: optionalString(),
   billing_address_line_2: optionalString(),
   billing_city: optionalString(),
-  billing_region: optionalString(),
+  billing_region_name: requiredString(),
+  billing_region_code: requiredString(2, 2),
   billing_zip: optionalString(6),
-  billing_country: optionalString(),
+  billing_country_name: requiredString(),
+  billing_country_code: requiredString(2, 2),
 
-  shipping_options: z.enum(["delivery", "pick_up"]),
+  shipping_method_options: z.enum(["delivery", "pick_up"]),
 
-  promotion_code: z.string().optional(),
+  promotion_code: optionalString(),
 
-  // promotion_id: z.bigint(),
-  // promotion_type: z.string(),
-  // promotion_value: z.int(),
-  // promotion_currency_code: z.string(),
-  // subtotal_price: z.int(),
-  // discount_total: z.int(),
-  // tax_total: z.int(),
-  // shipping_total: z.int(),
-  // total_price: z.int(),
-  // currency_code: z.string(),
+  locale: z.enum(["fr-CA", "en-CA"], { error: "Required" }),
+
+  token: z.string({ error: "Required" }),
 })
 
 export type CheckoutSchema = z.infer<typeof checkoutSchema>
+
+type Checkout = {
+  checkoutData: CheckoutSchema
+  accessToken: string
+}
+
+export async function checkout({ checkoutData, accessToken }: Checkout) {
+  const { data } = await axios.post<{
+    success: boolean
+    message: string
+    url?: string
+    data?: any
+  }>(`${api}/checkout`, checkoutData, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+
+  return data
+}
+
+export type CheckoutResponse = ReturnType<typeof checkout>
+
+export function useCheckout() {
+  const {
+    mutate: tryCheckout,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: ({ checkoutData, accessToken }: Checkout): CheckoutResponse =>
+      checkout({ checkoutData, accessToken }),
+  })
+
+  return { tryCheckout, isPending, error }
+}

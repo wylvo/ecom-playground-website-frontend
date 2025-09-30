@@ -13,6 +13,8 @@ import {
   type SelectedOptions,
 } from "@/components/ui/select-options"
 import { useCart } from "@/features/cart/contexts/cart-context"
+import Section from "@/components/ui/section"
+import Wrapper from "@/components/ui/wrapper"
 
 const route = getRouteApi("/{-$locale}/(app)/products/{-$productHandle}")
 
@@ -55,14 +57,14 @@ function ProductHandle() {
         navigate({ search: { variant: matchingVariant.id } })
       }
 
-      // If it's the default variant and the URL has ?variant=..., clean it up
-      if (
-        matchingVariant &&
-        matchingVariant.id === defaultVariant.id &&
-        variantId !== undefined
-      ) {
-        navigate({ search: {}, replace: true }) // remove `variant` from URL
-      }
+      // // If it's the default variant and the URL has ?variant=..., clean it up
+      // if (
+      //   matchingVariant &&
+      //   matchingVariant.id === defaultVariant.id &&
+      //   variantId !== undefined
+      // ) {
+      //   navigate({ search: {}, replace: true }) // remove `variant` from URL
+      // }
     }
   }, [selectedOptions, product, navigate, variantId])
 
@@ -112,15 +114,11 @@ function ProductHandle() {
   if (!productVariant) productVariant = product.variants[0]!
 
   return (
-    <>
-      <div>
-        <div>Hello "/(app)/products/$productHandle"!</div>
-        <div>Product Handle: {handle} </div>
-        <div>Locale: {locale}</div>
-
-        <div className="mt-12 flex flex-col gap-4">
+    <Section>
+      <Wrapper>
+        <div className="mt-12 grid gap-4">
           <div className="flex gap-8">
-            {productVariant.variant_images.map((vi, i) => (
+            {productVariant?.variant_images?.map((vi, i) => (
               <img
                 key={i}
                 className="w-32 h-32 object-cover"
@@ -176,8 +174,8 @@ function ProductHandle() {
               />
             ))}
         </div>
-      </div>
-    </>
+      </Wrapper>
+    </Section>
   )
 }
 

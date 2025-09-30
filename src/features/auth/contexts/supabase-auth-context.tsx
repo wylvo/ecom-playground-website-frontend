@@ -10,10 +10,12 @@ import * as supabaseAuth from "@/features/auth/api/supabase-auth.ts"
 
 export type UserClaims = JwtPayload | undefined
 export type User = SupabaseUser | UserClaims | null
+export type SessionAccessToken = string | null | undefined
 
 export interface SupabaseAuthContext {
   isAuthenticated: boolean
   user: User
+  accessToken: SessionAccessToken
   signUp: UseMutateFunction<void, Error, AuthRequiredFields, unknown>
   signIn: UseMutateFunction<void, Error, AuthRequiredFields, unknown>
   signInAnonymously: UseMutateFunction<void, Error, string, unknown>
@@ -34,6 +36,7 @@ interface SupabaseAuthProviderProps {
 
 function SupabaseAuthProvider({ children }: SupabaseAuthProviderProps) {
   const [user, setUser] = useState<User>()
+  const [accessToken, setAccessToken] = useState<SessionAccessToken>()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   // Check if user is authenticated on mount
@@ -48,6 +51,7 @@ function SupabaseAuthProvider({ children }: SupabaseAuthProviderProps) {
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
       setIsAuthenticated(!!session?.user)
+      setAccessToken(session?.access_token ?? null)
       console.log(_event)
     })
 
@@ -114,8 +118,9 @@ function SupabaseAuthProvider({ children }: SupabaseAuthProviderProps) {
   return (
     <SupabaseAuthContext.Provider
       value={{
-        user,
         isAuthenticated,
+        user,
+        accessToken,
         signIn,
         signInAnonymously,
         signOut,

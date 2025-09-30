@@ -1,14 +1,16 @@
+import Wrapper from "@/components/ui/wrapper"
 import CheckoutOverview from "./checkout-overview"
 import OrderDetailsForm from "./details-form"
+import Section from "@/components/ui/section"
 
 function Details() {
   return (
-    <div className="grid min-h-svh gap-6 p-6 md:p-10">
-      <div className="grid grid-cols-2 grid-rows-1 gap-6">
+    <Section className="grid min-h-svh gap-6">
+      <Wrapper className="grid lg:grid-cols-2 lg:grid-rows-1 gap-6">
         <OrderDetailsForm />
         <CheckoutOverview />
-      </div>
-    </div>
+      </Wrapper>
+    </Section>
   )
 }
 

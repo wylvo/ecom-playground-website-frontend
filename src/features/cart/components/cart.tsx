@@ -7,6 +7,8 @@ import CartEmpty from "./cart-empty"
 import Loading from "@/components/ui/loading"
 import CartSummary from "./cart-summary"
 import CartItems from "./cart-items"
+import Section from "@/components/ui/section"
+import Wrapper from "@/components/ui/wrapper"
 
 function Cart() {
   const { cart, isLoading } = useCart()
@@ -27,29 +29,37 @@ function Cart() {
   }
 
   return (
-    <div className="flex flex-col gap-8 p-8">
-      <h1>
-        <span className="text-3xl">Cart</span>
-        {cart && cart.cart_items.length > 1
-          ? ` — ${cart?.cart_items.length} items`
-          : cart && cart.cart_items.length === 1
-            ? ` — ${cart?.cart_items.length} item`
-            : ""}
-      </h1>
+    <Section>
+      <Wrapper>
+        <div className="grid grid-cols-2 gap-8">
+          <div className="grid gap-8 p-8">
+            <h1>
+              <span className="text-3xl">Cart</span>
+              {cart && cart.cart_items.length > 1
+                ? ` — ${cart?.cart_items.length} items`
+                : cart && cart.cart_items.length === 1
+                  ? ` — ${cart?.cart_items.length} item`
+                  : ""}
+            </h1>
 
-      <CartItems />
+            <CartItems />
+          </div>
 
-      <CartSummary id={cart.id} cart_items={cart.cart_items} />
+          <div className="grid gap-8 p-8">
+            <CartSummary id={cart.id} cart_items={cart.cart_items} />
 
-      <div>
-        <Button className="w-full" onClick={handleClickCheckout}>
-          Checkout
-        </Button>
-        <p className="text-sm text-muted-foreground text-center mt-2">
-          * Shipping & taxes calculated at checkout
-        </p>
-      </div>
-    </div>
+            <div>
+              <Button className="w-full" onClick={handleClickCheckout}>
+                Checkout
+              </Button>
+              <p className="text-sm text-muted-foreground text-center mt-2">
+                * Shipping & taxes calculated at checkout
+              </p>
+            </div>
+          </div>
+        </div>
+      </Wrapper>
+    </Section>
   )
 }
 
