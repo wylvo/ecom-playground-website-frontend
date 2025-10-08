@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router"
-import { useForm, useWatch } from "react-hook-form"
+import { useForm /*useWatch*/ } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod"
 
@@ -182,10 +182,10 @@ function DetailsForm() {
     },
   })
 
-  const billingMatchesShipping = useWatch({
-    control: form.control,
-    name: "billing_address_matches_shipping_address",
-  })
+  // const billingMatchesShipping = useWatch({
+  //   control: form.control,
+  //   name: "billing_address_matches_shipping_address",
+  // })
 
   const {
     formState: { errors },
@@ -652,7 +652,7 @@ function DetailsForm() {
                   )}
                 />
 
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="billing_address_matches_shipping_address"
                   render={({ field }) => (
@@ -674,9 +674,9 @@ function DetailsForm() {
                       </FormLabel>
                     </FormItem>
                   )}
-                />
+                /> */}
 
-                <div
+                {/* <div
                   className={billingMatchesShipping ? "hidden" : "grid gap-6"}
                 >
                   <div>
@@ -850,7 +850,7 @@ function DetailsForm() {
                                   })) ?? []
                               }
                               type="province/state"
-                              value={field.value}
+                              value={field.value!}
                               onValueChange={(value) => {
                                 countriesAndRegions?.forEach((country) =>
                                   country.regions.find((region) => {
@@ -930,7 +930,7 @@ function DetailsForm() {
                               })) ?? []
                             }
                             type="country"
-                            value={field.value}
+                            value={field.value!}
                             onValueChange={(value) => {
                               setData({
                                 billing_country_name: value,
@@ -960,7 +960,7 @@ function DetailsForm() {
                       </FormItem>
                     )}
                   />
-                </div>
+                </div> */}
 
                 <Button type="submit">Next</Button>
               </div>

@@ -47,18 +47,18 @@ export const checkoutSchema = z.object({
   shipping_country_name: requiredString(),
   shipping_country_code: requiredString(2, 2),
 
-  billing_address_matches_shipping_address: z.boolean(),
+  billing_address_matches_shipping_address: z.boolean().optional(),
 
   billing_full_name: optionalString(),
   billing_company: optionalString(),
   billing_address_line_1: optionalString(),
   billing_address_line_2: optionalString(),
   billing_city: optionalString(),
-  billing_region_name: requiredString(),
-  billing_region_code: requiredString(2, 2),
+  billing_region_name: optionalString(),
+  billing_region_code: optionalString(2),
   billing_zip: optionalString(6),
-  billing_country_name: requiredString(),
-  billing_country_code: requiredString(2, 2),
+  billing_country_name: optionalString(),
+  billing_country_code: optionalString(2),
 
   shipping_method_options: z.enum(["delivery", "pick_up"]),
 

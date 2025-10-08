@@ -64,31 +64,31 @@ function ShippingMethodsForm() {
   const shipping_country_code = useCheckoutStore(
     (state) => state.shipping_country_code,
   )
-  const billing_address_matches_shipping_address = useCheckoutStore(
-    (state) => state.billing_address_matches_shipping_address,
-  )
-  const billing_full_name = useCheckoutStore((state) => state.billing_full_name)
-  const billing_company = useCheckoutStore((state) => state.billing_company)
-  const billing_address_line_1 = useCheckoutStore(
-    (state) => state.billing_address_line_1,
-  )
-  const billing_address_line_2 = useCheckoutStore(
-    (state) => state.billing_address_line_2,
-  )
-  const billing_city = useCheckoutStore((state) => state.billing_city)
-  const billing_region_name = useCheckoutStore(
-    (state) => state.billing_region_name,
-  )
-  const billing_region_code = useCheckoutStore(
-    (state) => state.billing_region_code,
-  )
-  const billing_zip = useCheckoutStore((state) => state.billing_zip)
-  const billing_country_name = useCheckoutStore(
-    (state) => state.billing_country_name,
-  )
-  const billing_country_code = useCheckoutStore(
-    (state) => state.billing_country_code,
-  )
+  // const billing_address_matches_shipping_address = useCheckoutStore(
+  //   (state) => state.billing_address_matches_shipping_address,
+  // )
+  // const billing_full_name = useCheckoutStore((state) => state.billing_full_name)
+  // const billing_company = useCheckoutStore((state) => state.billing_company)
+  // const billing_address_line_1 = useCheckoutStore(
+  //   (state) => state.billing_address_line_1,
+  // )
+  // const billing_address_line_2 = useCheckoutStore(
+  //   (state) => state.billing_address_line_2,
+  // )
+  // const billing_city = useCheckoutStore((state) => state.billing_city)
+  // const billing_region_name = useCheckoutStore(
+  //   (state) => state.billing_region_name,
+  // )
+  // const billing_region_code = useCheckoutStore(
+  //   (state) => state.billing_region_code,
+  // )
+  // const billing_zip = useCheckoutStore((state) => state.billing_zip)
+  // const billing_country_name = useCheckoutStore(
+  //   (state) => state.billing_country_name,
+  // )
+  // const billing_country_code = useCheckoutStore(
+  //   (state) => state.billing_country_code,
+  // )
   const locale = useCheckoutStore((state) => state.locale)
 
   const form = useForm<CheckoutShippingMethodSchema>({
@@ -132,17 +132,17 @@ function ShippingMethodsForm() {
       shipping_zip,
       shipping_country_name,
       shipping_country_code,
-      billing_address_matches_shipping_address,
-      billing_full_name,
-      billing_company,
-      billing_address_line_1,
-      billing_address_line_2,
-      billing_city,
-      billing_region_name,
-      billing_region_code,
-      billing_zip,
-      billing_country_name,
-      billing_country_code,
+      // billing_address_matches_shipping_address,
+      // billing_full_name,
+      // billing_company,
+      // billing_address_line_1,
+      // billing_address_line_2,
+      // billing_city,
+      // billing_region_name,
+      // billing_region_code,
+      // billing_zip,
+      // billing_country_name,
+      // billing_country_code,
       locale,
     } as CheckoutSchema
 
